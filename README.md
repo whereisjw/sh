@@ -30,7 +30,7 @@ export default  function useMutation(url:string):[(data:any)=>void,{loading:bool
     return [mutation,{loading,data,error}]
 ~~~
 
-# 2일차 로그인기능/upsert 
+# 2일차 로그인기능/upsert,connect Token 모델생성
 
 -----> email # ---> User?
 

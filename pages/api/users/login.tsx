@@ -16,7 +16,18 @@ if(req.method === 'POST'){
         },//없으면 만들어라
         update:{},// 있으면 업데이트해라
     })
-   /*   user = await prisma.user.findUnique({
+const token = await prisma.token.create({
+    data:{
+        payload:Date.now()+"",
+        user:{
+            connect:{
+                id:user.id
+            },
+        }
+    }
+})
+
+/*   user = await prisma.user.findUnique({
         where:{
             email:email,
         }
@@ -29,8 +40,8 @@ if(req.method === 'POST'){
                 email:email,
             }
         })
-    }
-    console.log(user);
+    } */
+    console.log(token);
    
 }//post
     res.status(200).json({ok:true})
