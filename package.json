@@ -10,8 +10,11 @@
   },
   "dependencies": {
     "@prisma/client": "^5.8.1",
+    "@types/nodemailer": "^6.4.14",
     "axios": "^1.6.5",
+    "iron-session": "^6.3.1",
     "next": "14.1.0",
+    "nodemailer": "^6.9.8",
     "prisma": "^5.8.1",
     "react": "^18",
     "react-dom": "^18",
