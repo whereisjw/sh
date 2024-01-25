@@ -27,7 +27,9 @@ if(req.method === 'GET'){
  })
  
 console.log(profile)
-
+if(!profile){
+    return res.json({ok:false})
+}//!profile
  
   res.status(200).json({ok:true,profile})
 }//GET
