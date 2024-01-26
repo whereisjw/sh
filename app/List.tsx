@@ -2,28 +2,37 @@
 import React from 'react'
 import useUser from './utils/client/useUser'
 import Link from 'next/link'
- 
+import useSWR from 'swr'
+import { fetcher } from './utils/client/fetcher'
+import { Product } from '@prisma/client'
+
+
+interface ISWR{
+  ok?:boolean;
+  products:Product[]
+}
 
 const List = () => {
 const user = useUser()
+const {data} = useSWR<ISWR>('/api/products',fetcher)
  
 
 
   return (
     <>
     <div className="flex flex-col space-y-5 py-10">
-    {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
+    {data?.products?.map((product,index) => (
       <div
-        key={i}
+        key={index}
         className="flex justify-between border-b pb-4 cursor-pointer">
         <div className="flex space-x-4">
           <div className="w-20 h-20 bg-gray-400 rounded-md shadow-sm px-4" />
           <div className="pt-2 flex flex-col">
             <h3 className="text-sm font-medium text-gray-900">
-              New iPhone 14
+            <Link href={`/products/${product.id}`}> {product.name} </Link>
             </h3>
             <span className="text-xs text-gray-500">Black</span>
-            <span className="font-medium mt-1 text-gray-900">$95</span>
+            <span className="font-medium mt-1 text-gray-900">{product.price}원</span>
           </div>
         </div>
         <div className="flex items-end justify-end space-x-2">

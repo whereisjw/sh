@@ -12,6 +12,12 @@ interface IResponse{
 export default withIronSessionApiRoute( async function handler(req:NextApiRequest,res:NextApiResponse<IResponse>){
    const {name,price,description} =req.body;
    const {user} = req.session;
+if(req.method === 'GET'){
+    const products = await prisma.product.findMany({
+
+    })
+    res.json({products})
+}
 if(req.method === 'POST'){
     const products = await prisma.product.create({
     data:{

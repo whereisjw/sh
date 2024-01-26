@@ -90,7 +90,7 @@ export default function useUser () {
   }
 ```
 
-# 5일차 product table생성
+# 5일차 product table생성 1/26
 
 ```
 model Product {
@@ -106,4 +106,40 @@ model Product {
 
   @@index([userId])
 }
+```
+
+# 6일차 prisma를 이용한 관련상품 로직구현
+
+- req.query로 넘어오는 문자열은 +기호로 빠르게 형변환 가능
+- split과map함수를 써서 관련단어 배열을 만들고 prisma where or 문을 써서 필터 역할가능
+- not을 써서 본상품은 제외하고 연관상품을 보여준다
+
+```
+const {id}:any = req.query;
+
+const product = await prisma.product.findUnique({
+    where:{
+        id:+id,
+    },
+    include:{
+        user:true
+    }
+})
+const terms = product?.name.split(" ").map((v)=>({
+    name:{
+        contains:v,
+    },
+}))
+
+
+const relatedProduct = await prisma.product.findMany({
+    where:{
+        OR:terms,
+        id:{
+            not:product?.id
+        }
+    }
+})
+
+console.log(relatedProduct);
 ```
