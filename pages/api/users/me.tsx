@@ -14,7 +14,7 @@ declare module "iron-session"{
 }
 
 interface IResponse{
-    ok:boolean;
+    ok?:boolean;
     [key:string]:any;
 }
 
@@ -26,12 +26,12 @@ if(req.method === 'GET'){
     where:{id:req.session.user?.id}
  })
  
-console.log(profile)
+ 
 if(!profile){
     return res.json({ok:false})
 }//!profile
  
-  res.status(200).json({ok:true,profile})
+  res.status(200).json({profile})
 }//GET
 },{
  cookieName:"shSession",

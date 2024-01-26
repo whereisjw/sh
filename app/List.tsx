@@ -1,11 +1,14 @@
 'use client'
 import React from 'react'
 import useUser from './utils/client/useUser'
+import Link from 'next/link'
+ 
 
 const List = () => {
 const user = useUser()
- console.log(user);
  
+
+
   return (
     <>
     <div className="flex flex-col space-y-5 py-10">
@@ -58,6 +61,7 @@ const user = useUser()
       </div>
     ))}
     <button className="fixed bottom-24 right-5 hover:bg-teal-500 cursor-pointer transition-colors bg-teal-400 rounded-full p-4 text-white shadow-xl">
+      <Link href={`products/upload`}>
       <svg
         className="h-6 w-6"
         xmlns="http://www.w3.org/2000/svg"
@@ -72,6 +76,7 @@ const user = useUser()
           d="M12 6v6m0 0v6m0-6h6m-6 0H6"
         />
       </svg>
+      </Link>
     </button>
   </div></>
   )

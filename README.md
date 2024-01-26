@@ -65,3 +65,45 @@ await prisma.token.deleteMany({
 ```
 
 # 4일차 useUser훅만들기 , swr로 로그인 api 전역공유
+
+- swr로 user 인포를 전역으로 공유하였다
+- 사실 어플리케이션 단위로 상태관리하는건 보통 api 요청이 많기때문에 굳이 상태관리자를 쓸필요가없음(내생각)
+- react-query나 swr 쓰면 되는데 next 만든회사가 swr 회사기 때문에 이번에는 swr로 진행
+- swr이 react-query 패키지 1/3크기밖에 안됨 (팀플땐 리액트쿼리썼는데 내가 지금 swr쓰는이유)
+
+```
+'use client'
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import useSWR from "swr";
+
+
+const fetcher = (url:string)=> axios.get(url).then(res=>res.data)
+
+export default function useUser () {
+    const { data,error} = useSWR(`/api/users/me`, fetcher)
+    const router = useRouter()
+
+
+    return data
+  }
+```
+
+# 5일차 product table생성
+
+```
+model Product {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  image       String   @db.VarChar(255)
+  name        String   @db.VarChar(20)
+  price       String   @db.VarChar(20)
+  description String   @db.VarChar(200)
+
+  @@index([userId])
+}
+```
