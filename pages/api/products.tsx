@@ -25,6 +25,7 @@ if(req.method === 'POST'){
         price,
         description,
         image:'1',
+        category:'덤벨',
         user:{
             connect:{
                 id:user?.id,

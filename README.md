@@ -108,7 +108,7 @@ model Product {
 }
 ```
 
-# 6일차 prisma를 이용한 관련상품 로직구현
+# 6일차 prisma를 이용한 관련상품 로직구현,product model 카테고리항목추가, Like 모델추가(좋아요테이블)
 
 - req.query로 넘어오는 문자열은 +기호로 빠르게 형변환 가능
 - split과map함수를 써서 관련단어 배열을 만들고 prisma where or 문을 써서 필터 역할가능
@@ -142,4 +142,25 @@ const relatedProduct = await prisma.product.findMany({
 })
 
 console.log(relatedProduct);
+```
+
+- 관련상품 링크달아야함
+
+- 좋아요 모델생성
+- 좋아요 기능은 optimistic ui update 로 구현한다.
+- 인스타같은곳에서 일단 데이터 성공과 관계없이 일단 색부터 바꿔주는거임. 정확도가 떨어지겠지만 빠른속도로 진행해야하고 실패할일이 잘없는 요청에 쓰면 좋을것같음
+
+```
+model Like {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
+
+  @@index([productId])
+  @@index([userId])
+}
 ```

@@ -25,6 +25,7 @@ if(req.method === 'GET'){
  
 
 const {id}:any = req.query;
+const {user} = req.session
 
 const product = await prisma.product.findUnique({
     where:{
@@ -50,11 +51,14 @@ const relatedProduct = await prisma.product.findMany({
     }
 })
 
-console.log(relatedProduct);
 
-
-
-res.json({ok:true,product,relatedProduct})
+const isLike = Boolean(await prisma.like.findFirst({
+    where:{
+        productId:product?.id,
+        userId:user?.id
+    }
+}))
+res.json({ok:true,product,relatedProduct,isLike})
 }//GET
 },{
  cookieName:"shSession",

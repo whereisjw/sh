@@ -31,7 +31,7 @@ const {data} = useSWR<ISWR>('/api/products',fetcher)
             <h3 className="text-sm font-medium text-gray-900">
             <Link href={`/products/${product.id}`}> {product.name} </Link>
             </h3>
-            <span className="text-xs text-gray-500">Black</span>
+            <span className="text-xs text-gray-500">{product.category}</span>
             <span className="font-medium mt-1 text-gray-900">{product.price}원</span>
           </div>
         </div>

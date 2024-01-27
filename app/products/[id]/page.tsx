@@ -1,5 +1,6 @@
 'use client'
 import { fetcher } from "@/app/utils/client/fetcher";
+import useMutation from "@/app/utils/client/useMutation";
 import { Product, User } from "@prisma/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,15 +19,19 @@ interface ProductWithUser extends Product{
 interface ItemDetailResponse{
   ok:boolean;
   product:ProductWithUser;
+  isLike:boolean;
   relatedProduct:Product[]
 }
 
 const page = ({params}:IParams) => {
   const router = useRouter()
 
- 
+const [mutation,{loading:likeLoading,data:likeData,error:likeError}] = useMutation(`/api/products/${params.id}/like`)
   const {data,mutate} =useSWR<ItemDetailResponse>(params.id ? `/api/products/${params.id}` : null,fetcher)
- console.log(data);
+  const onLikeClick = ()=>{
+    mutation({})
+  }
+ 
  
   return (
     <div className="px-4 py-10 mb-10">
@@ -51,9 +56,9 @@ const page = ({params}:IParams) => {
             <button className="flex-1 bg-teal-500 text-white py-3 rounded-md font-medium hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
               Talk to seller
             </button>
-            <button className="p-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500">
+            <button onClick={onLikeClick} className={`p-3  rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500`  }>
               <svg
-                className="h-6 w-6 "
+                className={data?.isLike ? `h-6 w-6 fill-teal-500` : `w-6 h-6`}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
