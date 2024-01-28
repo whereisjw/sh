@@ -164,3 +164,5 @@ model Like {
   @@index([userId])
 }
 ```
+
+# 7일차 1/28
