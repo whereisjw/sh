@@ -1,5 +1,7 @@
 # SH 프로젝트 일지
 
+- 복습하며 새로운 프로젝트를 만들어보는 레파지토리입니다.
+
 # 1일차 /header/footer/db세팅, post 커스텀훅
 
 ```
@@ -165,4 +167,32 @@ model Like {
 }
 ```
 
-# 7일차 1/28
+# 7일차 optimistic ui update을 이용한 좋아요기능
+
+```
+const [mutation,{loading:likeLoading,data:likeData,error:likeError}] = useMutation(`/api/products/${params.id}/like`)
+  const {data,mutate} =useSWR<ItemDetailResponse>(params.id ? `/api/products/${params.id}` : null,fetcher)
+  const onLikeClick = ()=>{
+     mutation({})
+  if(!data) return;
+  mutate({...data,isLike:!data.isLike},false)
+  }
+```
+
+- swr의 mutate를 이용해 필요한때에 get요청을 업데이트 할 수 있는데 이때 캐싱된 데이터를 mutate첫번째 argument로 바꿀 수 있다.
+- 물론 post요청으로 직접적인 변경도 병행하지만 post 요청이 이뤄지지 않을 시에도 낙관적으로 업데이트해준다.
+- 인스타나 소셜미디어의 좋아요 기능처럼 빠르게 진행하고 어찌보면 정확도가 떨어져도 상관없는 기능에 활용가능하다.
+<hr/>
+- prisma orm의 count 세기
+
+```
+ const products = await prisma.product.findMany({
+include:{
+    _count:{
+        select:{
+            Like:true
+        }
+    }
+}
+    })
+```

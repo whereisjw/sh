@@ -29,8 +29,10 @@ const page = ({params}:IParams) => {
 const [mutation,{loading:likeLoading,data:likeData,error:likeError}] = useMutation(`/api/products/${params.id}/like`)
   const {data,mutate} =useSWR<ItemDetailResponse>(params.id ? `/api/products/${params.id}` : null,fetcher)
   const onLikeClick = ()=>{
-    mutation({})
-  }
+     mutation({}) 
+  if(!data) return;
+  mutate({...data,isLike:!data.isLike},false)
+  } 
  
  
   return (

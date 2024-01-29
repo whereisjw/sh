@@ -14,7 +14,13 @@ export default withIronSessionApiRoute( async function handler(req:NextApiReques
    const {user} = req.session;
 if(req.method === 'GET'){
     const products = await prisma.product.findMany({
-
+include:{
+    _count:{
+        select:{
+            Like:true
+        }
+    }
+}
     })
     res.json({products})
 }
