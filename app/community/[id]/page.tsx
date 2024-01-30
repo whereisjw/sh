@@ -1,19 +1,30 @@
-
 'use client'
 
 import { fetcher } from '@/app/utils/client/fetcher'
-import { Post, User } from '@prisma/client'
+import useMutation from '@/app/utils/client/useMutation'
+import { Answer, Post, User } from '@prisma/client'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import useSWR from 'swr'
 
-interface IPostWithUser extends Post{
+interface AnswerWithUser extends Answer{
   user:User
+}
+
+interface IPostWithUser extends Post{
+  user:User;
+  Answer:AnswerWithUser[];
+  _count:{
+    Answer:number;
+    Wondering:number;
+  }
 }
 
 interface IResponse{
   ok:boolean;
   post:IPostWithUser;
+  isWondering:boolean
 }
 
 interface IParams{
@@ -22,7 +33,13 @@ interface IParams{
 
 const page = ({params}:IParams) => {
  const router = useRouter()
- const {data} = useSWR<IResponse>(params.id ? `/api/posts/${params.id}` : null,fetcher)
+ const {data,mutate} = useSWR<IResponse>(params.id ? `/api/posts/${params.id}` : null,fetcher)
+ const [wonderMutation,{loading,data:wonderData,error}] = useMutation(`/api/posts/${params.id}/wonder`)
+ const onWonderClick = ()=>{
+  if(!data) return;
+  mutate({...data,isWondering:!data.isWondering,post:{...data.post,_count:{...data.post._count,Wondering:data.isWondering ? data?.post._count.Wondering - 1 : data?.post._count.Wondering + 1}}},false)
+  wonderMutation({})
+ }
 console.log(data)
   return (
     <div>
@@ -34,25 +51,22 @@ console.log(data)
       <div>
         <p className="text-sm font-medium text-gray-700">{data?.post?.user?.name}</p>
         <p className="text-xs font-medium text-gray-500">
-          View profile &rarr;
+        <Link href={`users/profiles/${data?.post?.user?.id}`}>View profile &rarr;</Link>
         </p>
       </div>
     </div>
     <div></div>
     <div>
       <div />
-      <div>
-        <p>Steve Jebs</p>
-        <p>View profile →</p>
-      </div>
+  
     </div>
     <div>
-      <div>
+      <div className='px-4'>
         <span>Q.</span> {data?.post?.question}
         <div className="flex space-x-5 mt-3 text-gray-700 py-2.5 border-t border-b-[1.5px] w-full">
-          <span className="flex space-x-2 items-center text-sm">
+          <span onClick={onWonderClick} className="cursor-pointer flex space-x-2 items-center text-sm">
             <svg
-              className="w-4 h-4"
+              className={data?.isWondering ? 'w-4 h-4 fill-teal-500' : 'w-4 h-4'}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -63,7 +77,7 @@ console.log(data)
                 strokeWidth="2"
                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <span>궁금해요 1</span>
+            <span>궁금해요 {data?.post?._count.Wondering}</span>
           </span>
           <span className="flex space-x-2 items-center text-sm">
             <svg
@@ -78,7 +92,7 @@ console.log(data)
                 strokeWidth="2"
                 d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
             </svg>
-            <span>답변 1</span>
+            <span>답변  {data?.post?._count?.Answer}</span>
           </span>
         </div>
       </div>
@@ -86,16 +100,17 @@ console.log(data)
     <div className="px-4 my-5 space-y-5">
       <div>
         <div />
+        {data && data?.post.Answer.map((v)=> (
         <div className="flex   items-start space-x-3">
-          <span className="w-8 h-8 bg-gray-200 rounded-full text-sm font-medium text-gray-500">
-            {" "}
+          <span key={v.id} className="w-8 h-8 bg-gray-200 rounded-full text-sm font-medium text-gray-500">
           </span>
-          <span>jiwon park</span>
-          <span>2시간 전</span>
+          <span>{v.user.name}</span>
+          <span>{v.createdAt.toLocaleString()}</span>
           <p className="text-gray-700">
-            The best mandu restaurant is the one next to my house.
+            {v.answer}
           </p>
         </div>
+       )) }
       </div>
     </div>
     <div className="px-4">

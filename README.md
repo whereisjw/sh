@@ -196,3 +196,16 @@ include:{
 }
     })
 ```
+
+### 8일차 optimistic ui update를 통한 커뮤니티 글 공감(좋아요기능+1버튼)
+
+- isWondering이라는 boolean값을 만들어서 데이터 유무를 나타냅니다.
+- mutate를 사용해서 캐싱된데이터에서 iswodering의 유무에 따라 +1 -1 을 시킨다
+
+```
+ const onWonderClick = ()=>{
+  if(!data) return;
+  mutate({...data,isWondering:!data.isWondering,post:{...data.post,_count:{...data.post._count,Wondering:data.isWondering ? data?.post._count.Wondering - 1 : data?.post._count.Wondering + 1}}},false)
+  wonderMutation({})
+ }
+```

@@ -11,18 +11,39 @@ export default withIronSessionApiRoute( async function handler(req:NextApiReques
    
 if(req.method === 'GET'){
 const {id}:any = req.query
+const {user} = req.session
 const post = await prisma.post.findUnique({
  where:{
     id:+id
  },
  include:{
-    user:true
+    user:true,
+    Answer:{
+      select:{
+         user:true,
+         id:true,
+      },
+    },
+    _count:{
+      select:{
+         Answer:true,
+         Wondering:true,
+      }
+    }
  }
 })
+const isWondering = Boolean(await prisma.wondering.findFirst({
+   where:{
+       postId:+id,
+       userId:user?.id
+   },
+   
+}))
 
 res.json({
     ok:true,
-    post
+    post,
+    isWondering
 })
 
 }//GET
