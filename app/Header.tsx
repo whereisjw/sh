@@ -32,7 +32,7 @@ const Header = () => {
                 router.push("/");
               }}
               className="w-[33%] flex justify-center text-4xl font-bold cursor-pointer text-teal-500">
-              중고홈짐
+            <img src="" alt="" />
             </div>
             <div className="hidden w-[33%] text-[12px] lg:flex justify-end items-center space-x-[15px]">
               <span className="cursor-pointer">
