@@ -2,7 +2,7 @@
 
 - 복습하며 새로운 프로젝트를 만들어보는 레파지토리입니다.
 
-# 1일차 /header/footer/db세팅, post 커스텀훅
+## 1 /header/footer/db세팅, post 커스텀훅
 
 ```
 model User {
@@ -34,7 +34,7 @@ export default  function useMutation(url:string):[(data:any)=>void,{loading:bool
     return [mutation,{loading,data,error}]
 ```
 
-# 2일차 로그인기능/upsert,connect Token 모델생성
+## 2 로그인기능/upsert,connect Token 모델생성
 
 -----> email # ---> User?
 
@@ -47,7 +47,7 @@ export default  function useMutation(url:string):[(data:any)=>void,{loading:bool
 - npm install --save nodemailer @types/nodemailer
 - 노드메일러를 이용해 이메일 인증방식으로 토큰발급
 
-# 3일차 iron-sessions 1/24
+## 3 iron-sessions 1/24
 
 ### iron-session
 
@@ -66,7 +66,7 @@ await prisma.token.deleteMany({
 })
 ```
 
-# 4일차 useUser훅만들기 , swr로 로그인 api 전역공유
+## 4 useUser훅만들기 , swr로 로그인 api 전역공유
 
 - swr로 user 인포를 전역으로 공유하였다
 - 사실 어플리케이션 단위로 상태관리하는건 보통 api 요청이 많기때문에 굳이 상태관리자를 쓸필요가없음(내생각)
@@ -92,7 +92,7 @@ export default function useUser () {
   }
 ```
 
-# 5일차 product table생성 1/26
+## 5 product table생성 1/26
 
 ```
 model Product {
@@ -110,7 +110,7 @@ model Product {
 }
 ```
 
-# 6일차 prisma를 이용한 관련상품 로직구현,product model 카테고리항목추가, Like 모델추가(좋아요테이블)
+## 6 prisma를 이용한 관련상품 로직구현,product model 카테고리항목추가, Like 모델추가(좋아요테이블)
 
 - req.query로 넘어오는 문자열은 +기호로 빠르게 형변환 가능
 - split과map함수를 써서 관련단어 배열을 만들고 prisma where or 문을 써서 필터 역할가능
@@ -167,7 +167,7 @@ model Like {
 }
 ```
 
-# 7일차 optimistic ui update을 이용한 좋아요기능
+## 7 optimistic ui update을 이용한 좋아요기능
 
 ```
 const [mutation,{loading:likeLoading,data:likeData,error:likeError}] = useMutation(`/api/products/${params.id}/like`)
@@ -197,7 +197,7 @@ include:{
     })
 ```
 
-### 8일차 optimistic ui update를 통한 커뮤니티 글 공감(좋아요기능+1버튼)
+## 8 optimistic ui update를 통한 커뮤니티 글 공감(좋아요기능+1버튼)
 
 - isWondering이라는 boolean값을 만들어서 데이터 유무를 나타냅니다.
 - mutate를 사용해서 캐싱된데이터에서 iswodering의 유무에 따라 +1 -1 을 시킨다
@@ -209,3 +209,7 @@ include:{
   wonderMutation({})
  }
 ```
+
+## 9 커뮤니티 글목록출력완료,댓글기능완료
+
+- includes와 \_count을 다시 한 번 사용해서 기능완료

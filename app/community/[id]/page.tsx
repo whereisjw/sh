@@ -5,7 +5,8 @@ import useMutation from '@/app/utils/client/useMutation'
 import { Answer, Post, User } from '@prisma/client'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 import useSWR from 'swr'
 
 interface AnswerWithUser extends Answer{
@@ -27,20 +28,42 @@ interface IResponse{
   isWondering:boolean
 }
 
+interface ICommunityAnswer{
+  answer:string;
+}
+
 interface IParams{
     params:{id:string}
   }
 
+  interface IAnswerResponse{
+    ok:boolean;
+    answer:Answer;
+  }
+
 const page = ({params}:IParams) => {
+
  const router = useRouter()
+ const {register,handleSubmit,setValue} = useForm<ICommunityAnswer>()
  const {data,mutate} = useSWR<IResponse>(params.id ? `/api/posts/${params.id}` : null,fetcher)
  const [wonderMutation,{loading,data:wonderData,error}] = useMutation(`/api/posts/${params.id}/wonder`)
+ const [answerMutation,{loading:answerLoading,data:answerData,error:answerError}] = useMutation(`/api/posts/${params.id}/answers`)
  const onWonderClick = ()=>{
   if(!data) return;
   mutate({...data,isWondering:!data.isWondering,post:{...data.post,_count:{...data.post._count,Wondering:data.isWondering ? data?.post._count.Wondering - 1 : data?.post._count.Wondering + 1}}},false)
   wonderMutation({})
  }
-console.log(data)
+ const onAnswerValid = (onAnswerValid:ICommunityAnswer)=>{
+ 
+answerMutation(onAnswerValid)
+setValue('answer',"")
+
+ }
+ useEffect(()=>{
+  mutate()
+ },[onAnswerValid])
+ 
+
   return (
     <div>
     <span className="inline-flex items-center my-2 mx-4 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100  text-gray-800">
@@ -105,7 +128,7 @@ console.log(data)
           <span key={v.id} className="w-8 h-8 bg-gray-200 rounded-full text-sm font-medium text-gray-500">
           </span>
           <span>{v.user.name}</span>
-          <span>{v.createdAt.toLocaleString()}</span>
+         <span>{v.createdAt.toLocaleString()}</span>  
           <p className="text-gray-700">
             {v.answer}
           </p>
@@ -113,16 +136,17 @@ console.log(data)
        )) }
       </div>
     </div>
-    <div className="px-4">
+    <form className="px-4" onSubmit={handleSubmit(onAnswerValid)}>
       <textarea
-        placeholder="질문의 답변을 입력해주세요"
+      {...register("answer",{required:true,minLength:5})}
+        placeholder="질문의 답변을 입력해주세요(최소 5자이상)"
         className="resize-none mt-1 shadow-sm w-full focus:ring-2 focus:ring-teal-500 rounded-md border-gray-400 focus:border-teal-500"
         rows={4}
       />
       <button className="mt-4 w-full bg-teal-500 py-4 hover:bg-teal-600 hover:text-white rounded-md">
-        Reply
+      {answerLoading ? "로딩중..." : '답변하기'}
       </button>
-    </div>
+    </form>
   </div>
   )
 }

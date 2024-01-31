@@ -22,6 +22,8 @@ const post = await prisma.post.findUnique({
       select:{
          user:true,
          id:true,
+         answer:true,
+         createdAt:true,
       },
     },
     _count:{
@@ -39,6 +41,8 @@ const isWondering = Boolean(await prisma.wondering.findFirst({
    },
    
 }))
+
+
 
 res.json({
     ok:true,

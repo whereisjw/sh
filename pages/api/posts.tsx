@@ -9,11 +9,11 @@ interface IResponse{
     post:Post
 }
 
-export default withIronSessionApiRoute( async function handler(req:NextApiRequest,res:NextApiResponse<IResponse>){
-   
+export default withIronSessionApiRoute( async function handler(req:NextApiRequest,res:NextApiResponse){
+    const {question} = req.body
+    const {user} = req.session
 if(req.method === 'POST'){
-const {question} = req.body
-const {user} = req.session
+
 
 const post = await prisma.post.create({
     data:{
@@ -30,6 +30,24 @@ res.json({
     ok:true,post
 })
 }//POST
+if(req.method === 'GET'){
+const getPosts = await prisma.post.findMany({
+    include:{
+        user:true,
+        _count:{
+            select:{
+             Wondering:true,
+             Answer:true,
+            }
+        },
+    },
+
+})
+res.json({
+    ok:true,
+    getPosts
+})
+}
 },{
  cookieName:"shSession",
  password:"1354948945415616571651765156741675174657414765156489649949"   
