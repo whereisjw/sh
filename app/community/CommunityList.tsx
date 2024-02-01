@@ -4,6 +4,7 @@ import useSWR from 'swr'
 import { fetcher } from '../utils/client/fetcher'
 import { Post, User } from '@prisma/client';
 import { useRouter } from 'next/navigation';
+import useCoords from '../utils/client/useCoords';
 
 interface WithUSer extends Post{
 user:User;
@@ -19,7 +20,8 @@ interface ISWR{
 }
 
 const CommunityList = () => {
-  const {data} = useSWR<ISWR>(`/api/posts`,fetcher)
+  const {latitude,longitude} = useCoords()
+  const {data} = useSWR<ISWR>(`/api/posts?latitude=${latitude}&longitude=${longitude}`,fetcher)
 const router = useRouter()
   
   return (

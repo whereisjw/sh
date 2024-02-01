@@ -3,7 +3,8 @@ import WriteForm from './WriteForm'
 
 const page = () => {
   return (
-<><WriteForm/>
+<>
+<WriteForm/>
 </>
   )
 }

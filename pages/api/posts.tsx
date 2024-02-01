@@ -10,14 +10,17 @@ interface IResponse{
 }
 
 export default withIronSessionApiRoute( async function handler(req:NextApiRequest,res:NextApiResponse){
-    const {question} = req.body
+    const {question,latitude:lat,longitude:lng} = req.body
     const {user} = req.session
+    const {latitude,longitude} = req.query
 if(req.method === 'POST'){
 
 
 const post = await prisma.post.create({
     data:{
         question,
+        lat:lat ? lat : null,
+        lng:lng ? lng : null,
         user:{
             connect:{
                 id:user?.id
@@ -31,6 +34,8 @@ res.json({
 })
 }//POST
 if(req.method === 'GET'){
+
+    
 const getPosts = await prisma.post.findMany({
     include:{
         user:true,
@@ -41,7 +46,16 @@ const getPosts = await prisma.post.findMany({
             }
         },
     },
-
+/*     where:{
+        lat:{
+            gte:Number(latitude)-0.01,
+            lte:Number(latitude)+0.01,
+        },
+        lng:{
+            gte:Number(longitude)-0.01,
+            lte:Number(longitude)+0.01,
+        }
+    } */
 })
 res.json({
     ok:true,

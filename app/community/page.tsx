@@ -4,7 +4,7 @@ import CommunityList from './CommunityList'
 
 const page = () => {
   return (
-<div className="p-4 space-y-8">
+<div className="py-4 space-y-8">
  
 <CommunityList/>
  

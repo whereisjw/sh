@@ -1,5 +1,6 @@
 'use client'
 import Spinner from "@/app/utils/client/Spinner";
+import useCoords from "@/app/utils/client/useCoords";
 import useMutation from "@/app/utils/client/useMutation";
 import { Product } from "@prisma/client";
 import { useRouter } from "next/navigation";
@@ -24,7 +25,7 @@ const page = () => {
     const [mutation,{loading,data,error}] = useMutation('/api/products')
     const onValid = (UploadValid:IForm)=>{
       if(loading) return false;
-      mutation(UploadValid);
+      mutation({...UploadValid});
       
     }
 

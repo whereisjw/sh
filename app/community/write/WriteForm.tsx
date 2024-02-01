@@ -1,4 +1,5 @@
 'use client'
+import useCoords from '@/app/utils/client/useCoords'
 import useMutation from '@/app/utils/client/useMutation'
 import { Post } from '@prisma/client'
 import { useRouter } from 'next/navigation'
@@ -14,12 +15,12 @@ interface IResponse{
 }
 const WriteForm = () => {
     const router = useRouter()
+    const {latitude,longitude} = useCoords()
     const {register,handleSubmit,setValue} = useForm<IFrom>()
-    const [mutation,{loading,data,error}] = useMutation('/api/posts')
+    const [mutation,{loading,data,error}] = useMutation(`/api/posts`)
 
     const onWriteValid = (validData:IFrom)=>{
-        console.log(validData);
-        mutation(validData)
+        mutation({...validData,latitude,longitude})
     }
     useEffect(()=>{
         if(data&&data.ok) {
