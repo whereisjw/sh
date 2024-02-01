@@ -2,6 +2,10 @@
 
 - 배운 내용을 복습하며 새로운 프로젝트를 만들어보는 레파지토리입니다.
 
+## 기능
+
+- iron-session을 이용한 serverless 로그인구현
+
 ## 1 /header/footer/db세팅, post 커스텀훅
 
 ```

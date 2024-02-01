@@ -12,19 +12,26 @@ datasource db {
 }
 
 model User {
-  id        Int         @id @default(autoincrement())
-  phone     String?     @unique @db.VarChar(50)
-  email     String?     @unique
-  name      String
-  avatar    String?
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  tokens    Token[]
-  products  Product[]
-  Like      Like[]
-  Post      Post[]
-  Answer    Answer[]
-  Wondering Wondering[]
+  id              Int         @id @default(autoincrement())
+  phone           String?     @unique @db.VarChar(50)
+  email           String?     @unique
+  name            String
+  avatar          String?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  tokens          Token[]
+  products        Product[]
+  Like            Like[]
+  Post            Post[]
+  Answer          Answer[]
+  Wondering       Wondering[]
+  writtenReviews  Review[]    @relation(name: "writtenReviews")
+  receviedReviews Review[]    @relation(name: "receviedReviews")
+
+  Review   Review[]
+  Sale     Sale[]
+  Purchase Purchase[]
+  Record   Record[]
 }
 
 model Token {
@@ -39,17 +46,20 @@ model Token {
 }
 
 model Product {
-  id          Int      @id @default(autoincrement())
-  user        User     @relation(fields: [userId], references: [id])
+  id          Int        @id @default(autoincrement())
+  user        User       @relation(fields: [userId], references: [id])
   userId      Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  category    String   @db.VarChar(20)
-  image       String   @db.VarChar(255)
-  name        String   @db.VarChar(20)
-  price       String   @db.VarChar(20)
-  description String   @db.VarChar(200)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  category    String     @db.VarChar(20)
+  image       String     @db.VarChar(255)
+  name        String     @db.VarChar(20)
+  price       String     @db.VarChar(20)
+  description String     @db.VarChar(200)
   Like        Like[]
+  Sale        Sale[]
+  Purchase    Purchase[]
+  Record      Record[]
 
   @@index([userId])
 }
@@ -107,4 +117,67 @@ model Wondering {
 
   @@index([postId])
   @@index([userId])
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  review      String   @db.MediumText
+  createBy    User     @relation(name: "writtenReviews", fields: [createById], references: [id])
+  createById  Int
+  createFor   User     @relation(name: "receviedReviews", fields: [createForId], references: [id])
+  createForId Int
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
+
+  @@index([createById])
+  @@index([createForId])
+  @@index([userId])
+}
+
+model Sale {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
+
+  @@index([productId])
+  @@index([userId])
+}
+
+model Purchase {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
+
+  @@index([productId])
+  @@index([userId])
+}
+
+model Record {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
+  kind      Kind
+
+  @@index([productId])
+  @@index([userId])
+}
+
+enum Kind {
+  Sale
+  Like
+  Purchase
 }
