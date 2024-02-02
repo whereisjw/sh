@@ -1,40 +1,41 @@
 import smtpTransport from "@/prisma/email";
-import  prisma from "../../../prisma/client";
+import prisma from "../../../prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
-
-interface IResponse{
-    ok:boolean;
-    [key:string]:any;
+interface IResponse {
+  ok: boolean;
+  [key: string]: any;
 }
 
-
-export default async function handler(req:NextApiRequest,res:NextApiResponse<IResponse>){
-    const {email} = req.body
- let 암호 = Date.now()+""
-if(req.method === 'POST'){
-  const  user = await prisma.user.upsert({
-        where:{
-            email:email
-        },//찾아라
-        create:{
-            email:email,
-            name:'기본이름',
-        },//없으면 만들어라
-        update:{},// 있으면 업데이트해라
-    })
-const token = await prisma.token.create({
-    data:{
-        payload:암호,
-        user:{
-            connect:{
-                id:user.id
-            },
-        }
-    }
-})
-if (email) {
-  /*   const mailOptions = {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<IResponse>
+) {
+  const { email } = req.body;
+  let 암호 = Date.now() + "";
+  if (req.method === "POST") {
+    const user = await prisma.user.upsert({
+      where: {
+        email: email,
+      }, //찾아라
+      create: {
+        email: email,
+        name: "기본이름",
+      }, //없으면 만들어라
+      update: {}, // 있으면 업데이트해라
+    });
+    const token = await prisma.token.create({
+      data: {
+        payload: 암호,
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
+      },
+    });
+    if (email) {
+      /*   const mailOptions = {
     from: process.env.MAIL_ID,
     to: email,
     subject: "Nomad Carrot Authentication Email",
@@ -56,7 +57,6 @@ if (email) {
     console.log(result); */
     }
 
-    res.status(200).json({ok:true})
-}//post
-
+    res.status(200).json({ ok: true });
+  } //post
 }

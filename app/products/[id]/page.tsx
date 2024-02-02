@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { fetcher } from "@/app/utils/client/fetcher";
 import useMutation from "@/app/utils/client/useMutation";
 import { Product, User } from "@prisma/client";
@@ -7,34 +7,36 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import useSWR from "swr";
 
-interface IParams{
-  params:{id:string}
+interface IParams {
+  params: { id: string };
 }
 
-
-interface ProductWithUser extends Product{
-  user:User;
+interface ProductWithUser extends Product {
+  user: User;
 }
 
-interface ItemDetailResponse{
-  ok:boolean;
-  product:ProductWithUser;
-  isLike:boolean;
-  relatedProduct:Product[]
+interface ItemDetailResponse {
+  ok: boolean;
+  product: ProductWithUser;
+  isLike: boolean;
+  relatedProduct: Product[];
 }
 
-const page = ({params}:IParams) => {
-  const router = useRouter()
+const page = ({ params }: IParams) => {
+  const router = useRouter();
 
-const [mutation,{loading:likeLoading,data:likeData,error:likeError}] = useMutation(`/api/products/${params.id}/like`)
-  const {data,mutate} =useSWR<ItemDetailResponse>(params.id ? `/api/products/${params.id}` : null,fetcher)
-  const onLikeClick = ()=>{
-     mutation({}) 
-  if(!data) return;
-  mutate({...data,isLike:!data.isLike},false)
-  } 
- 
- 
+  const [mutation, { loading: likeLoading, data: likeData, error: likeError }] =
+    useMutation(`/api/products/${params.id}/like`);
+  const { data, mutate } = useSWR<ItemDetailResponse>(
+    params.id ? `/api/products/${params.id}` : null,
+    fetcher
+  );
+  const onLikeClick = () => {
+    mutation({});
+    if (!data) return;
+    mutate({ ...data, isLike: !data.isLike }, false);
+  };
+
   return (
     <div className="px-4 py-10 mb-10">
       <div className="mb-8">
@@ -42,30 +44,42 @@ const [mutation,{loading:likeLoading,data:likeData,error:likeError}] = useMutati
         <div className="flex cursor-pointer py-3 border-b border-t items-center space-x-3">
           <div className="w-12 h-12 rounded-full bg-gray-300" />
           <div>
-            <p className="text-sm font-medium text-gray-700">{data?.product?.user?.name}</p>
+            <p className="text-sm font-medium text-gray-700">
+              {data?.product?.user?.name}
+            </p>
             <p className="text-xs font-medium text-gray-500">
-              <Link href={`users/profiles/${data?.product?.user?.id}`}>View profile &rarr;</Link>
+              <Link href={`users/profiles/${data?.product?.user?.id}`}>
+                View profile &rarr;
+              </Link>
             </p>
           </div>
         </div>
         <div className="mt-8 ">
-          <h1 className="text-3xl font-bold text-gray-900">{data?.product?.name}</h1>
-          <span className="text-3xl mt-3 text-gray-900">${data?.product?.price}</span>
+          <h1 className="text-3xl font-bold text-gray-900">
+            {data?.product?.name}
+          </h1>
+          <span className="text-3xl mt-3 text-gray-900">
+            ${data?.product?.price}
+          </span>
           <p className="text-base my-6 text-gray-700">
-          {data?.product?.description}
+            {data?.product?.description}
           </p>
           <div className="flex items-center justify-between space-x-2">
             <button className="flex-1 bg-teal-500 text-white py-3 rounded-md font-medium hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
               Talk to seller
             </button>
-            <button onClick={onLikeClick} className={`p-3  rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500`  }>
+            <button
+              onClick={onLikeClick}
+              className={`p-3  rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500`}
+            >
               <svg
                 className={data?.isLike ? `h-6 w-6 fill-teal-500` : `w-6 h-6`}
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                aria-hidden="true">
+                aria-hidden="true"
+              >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -82,9 +96,11 @@ const [mutation,{loading:likeLoading,data:likeData,error:likeError}] = useMutati
         <div className="mt-6 grid grid-cols-2 gap-4">
           {data?.relatedProduct?.map((v, i) => (
             <div key={i}>
-              <div className="h-56 w-full bg-gray-300"/>
+              <div className="h-56 w-full bg-gray-300" />
               <h3 className="text-sm text-gray-700">{v.name}</h3>
-              <span className="text-sm font-medium text-gray-500">${v.price}</span>
+              <span className="text-sm font-medium text-gray-500">
+                ${v.price}
+              </span>
             </div>
           ))}
         </div>

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `review` MODIFY `score` INTEGER NOT NULL DEFAULT 1;

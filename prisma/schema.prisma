@@ -130,6 +130,7 @@ model Review {
   createForId Int
   User        User?    @relation(fields: [userId], references: [id])
   userId      Int?
+  score       Int      @default(1)
 
   @@index([createById])
   @@index([createForId])

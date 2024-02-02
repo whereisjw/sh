@@ -1,12 +1,12 @@
-import React from 'react'
-import WriteForm from './WriteForm'
+import React from "react";
+import WriteForm from "./WriteForm";
 
 const page = () => {
   return (
-<>
-<WriteForm/>
-</>
-  )
-}
+    <>
+      <WriteForm />
+    </>
+  );
+};
 
-export default page
+export default page;
