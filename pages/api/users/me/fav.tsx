@@ -25,7 +25,15 @@ export default withIronSessionApiRoute(
           userId: user?.id,
         },
         include: {
-          product: true,
+          product: {
+            include: {
+              _count: {
+                select: {
+                  Like: true,
+                },
+              },
+            },
+          },
         },
       });
       res.json({

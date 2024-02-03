@@ -88,7 +88,9 @@ const Footer = () => {
         <Link href={`/profile`}>
           <div className="flex flex-col items-center space-y-2">
             <svg
-              className={"/profile" ? `fill-teal-500 w-6 h-6` : `w-6 h-6`}
+              className={
+                pathname === "/profile" ? `fill-teal-500 w-6 h-6` : `w-6 h-6`
+              }
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 448 512"
             >

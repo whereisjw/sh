@@ -22,12 +22,14 @@ interface IResponse{
 export default withIronSessionApiRoute(
   async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { user } = req.session;
-    const reviews = await prisma;
 
     if (req.method === "GET") {
       const reviews = await prisma.review.findMany({
         where: {
           createById: user?.id,
+        },
+        include: {
+          User: true,
         },
       });
 
