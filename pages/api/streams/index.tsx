@@ -11,54 +11,40 @@ declare module "iron-session" {
   }
 }
 
-interface IResponse {
+/* interface IResponse {
   ok?: boolean;
   [key: string]: any;
-}
+} */
 
 export default withIronSessionApiRoute(
-  async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
+  async function handler(req: NextApiRequest, res: NextApiResponse) {
+    const { name, price, description } = req.body;
     const { user } = req.session;
-    const { email, name } = req.body;
-
     if (req.method === "GET") {
-      const profile = await prisma.user.findUnique({
-        where: { id: req.session.user?.id },
-      });
-
-      if (!profile) {
-        return res.json({ ok: false });
-      } //!profile
-
-      res.status(200).json({ profile });
-    } //GET
-    if (req.method === "POST") {
-      console.log(email, name, user);
-
-      /*     const UserExist = await prisma.user.findUnique({
-        where: {
-          email,
-        },
-      });
-      if (UserExist) {
-        return res.json({
-          ok: false,
-        });
-      } */
-      await prisma.user.update({
-        where: {
-          id: user?.id,
-        },
-        data: {
-          email,
-          name,
-        },
-      });
-
+      const stream = await prisma.stream.findMany({});
       res.json({
         ok: true,
+        stream,
       });
-    } //post
+    } //GET
+    if (req.method === "POST") {
+      const stream = await prisma.stream.create({
+        data: {
+          name,
+          price: +price,
+          description,
+          user: {
+            connect: {
+              id: user?.id,
+            },
+          },
+        },
+      });
+      res.json({
+        ok: true,
+        stream,
+      });
+    } //POST
   },
   {
     cookieName: "shSession",
