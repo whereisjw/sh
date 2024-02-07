@@ -1,6 +1,6 @@
 "use client";
 import { fetcher } from "@/app/utils/client/fetcher";
-import { Stream } from "@prisma/client";
+import { Message, Stream, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -9,9 +9,14 @@ import useSWR from "swr";
 interface IParams {
   url: string;
 }
+interface StreamWithMessages extends Stream {
+  Messages: Message;
+  user: User;
+}
+
 interface SWRResponse {
   ok: true;
-  stream: Stream;
+  stream: StreamWithMessages;
 }
 
 const StreamDetail = ({ url }: IParams) => {

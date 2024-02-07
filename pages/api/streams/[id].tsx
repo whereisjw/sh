@@ -26,6 +26,10 @@ export default withIronSessionApiRoute(
         where: {
           id: +id,
         },
+        include: {
+          Message: true,
+          user: true,
+        },
       });
       res.json({
         ok: true,
