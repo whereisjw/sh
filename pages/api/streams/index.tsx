@@ -21,7 +21,10 @@ export default withIronSessionApiRoute(
     const { name, price, description } = req.body;
     const { user } = req.session;
     if (req.method === "GET") {
-      const stream = await prisma.stream.findMany({});
+      const stream = await prisma.stream.findMany({
+        take: 10,
+        skip: 0,
+      });
       res.json({
         ok: true,
         stream,

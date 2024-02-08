@@ -12,8 +12,7 @@ interface SWRResponse {
 }
 
 const StreamList = () => {
-  const { data } = useSWR<SWRResponse>(`/api/streams`, fetcher);
-  console.log(data);
+  const { data } = useSWR<SWRResponse>(`/api/streams?page=1`, fetcher);
 
   return (
     <>

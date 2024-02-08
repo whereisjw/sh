@@ -244,3 +244,54 @@ include:{
     }
   );
 ```
+
+## 가짜데이터 만들기
+
+- seeding 을 이용한 가짜데이터 많이 생성하기
+- prisma 폴더에 seeding.ts 파일생성
+- client파일 복사후 seed에 똑같이 붙여놓고 하단에 임의의 배열만들기
+
+```
+async function main() {
+  let arr = new Array(500).fill(5).forEach(async (v) => {
+    const stream = await prisma.stream.create({
+      data: {
+        name: String(v),
+        description: String(v),
+        price: v,
+        user: {
+          connect: {
+            id: 1,
+          },
+        },
+      },
+    });
+  });
+}
+
+main().catch((e) => console.log(e));
+```
+
+- package.json 파일에 아래 추가
+
+```
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  }
+```
+
+- npx prisma db seed
+
+## prisma 페이지네이션
+
+- 프리즈마는 내장된 기능을 통해 페이지네이션을 참 쉽게 할 수 있다.
+- /api/streams?page=1 이런식으로 쿼리스트링을 통해 페이지를 나타낸다
+- take로 보여줄 글의 수, skip으로 skip하는 글의수를 조절 할 수 있다
+- 프론트페이지는 1페이지부터 시작하므로 프론트페이지에서 -1 한 숫자만큼 스킵수를 곱하면 페이지네이션 끗 !
+
+```
+      const stream = await prisma.stream.findMany({
+        take: 10,
+        skip: 10 * 프론트페이지-1,
+      });
+```
