@@ -27,7 +27,10 @@ const page = ({ params }: IParams) => {
   const user = useUser();
   const { data, mutate } = useSWR<SWRResponse>(
     `/api/streams/${params.id}`,
-    fetcher
+    fetcher,
+    {
+      refreshInterval: 1000,
+    }
   );
   const [mutation, { loading, data: messageData, error }] = useMutation(
     `/api/streams/${params.id}/messages`
@@ -35,9 +38,13 @@ const page = ({ params }: IParams) => {
   const { register, handleSubmit, setValue } = useForm<MessageForm>();
   const onValid = (messageData: MessageForm) => {
     setValue("message", "");
+    /*     mutate(prev=>prev&&({...prev,stream:{...prev.stream:{...prev.stream,mesaage:[...prev.stream.messages,{id:Date.now(),message:messageData.message,user:{
+      ...user:{
+        ...user,
+      }
+    }}]}})) */
     mutation(messageData);
   };
-
   useEffect(() => {
     if (messageData && messageData.ok) {
       mutate();

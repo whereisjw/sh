@@ -217,3 +217,30 @@ include:{
 ## 9 커뮤니티 글목록출력완료,댓글기능완료
 
 - includes와 \_count을 다시 한 번 사용해서 기능완료
+
+## USESWR을 이용한 채팅기능
+
+- nextjs의 서버리스 환경에서는 웹소켓을 사용 할 수 없음
+- 웹소켓은 서버와 양방향 통신인데 서버가 없기 때문이다.
+- 하지만 눈속임으로 실시간 통신이 가능한 방법이 있다.
+- mutate를 이용해 post가 성공할때마다 렌더링이 되는 방법
+
+```
+  useEffect(() => {
+     if (messageData && messageData.ok) {
+       mutate();
+     }
+   }, [messageData]);
+```
+
+- useswr훅의 세번째 인자로 {}를 주고 거기에 refreshInterval을 주면 지정한 ms단위로 렌더링가능
+
+```
+ const { data, mutate } = useSWR<SWRResponse>(
+    `/api/streams/${params.id}`,
+    fetcher,
+    {
+      refreshInterval: 1000,
+    }
+  );
+```

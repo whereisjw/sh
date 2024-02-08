@@ -29,11 +29,7 @@ const Stream_Form = ({ url }: Props) => {
           placeholder="채팅을 입력해주세요"
           className="shadow-md rounded-full border border-r-0 pl-5 py-2 w-full border-gray-300 pr-12 focus:ring-teal-500 focus:border-teal-500 focus:outline-none"
         />
-        {/*     <div className="absolute h-full inset-y-0 bottom-2 flex py-1.5 pr-1.5 right-0">
-          <span className="flex h-full focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 items-center bg-teal-500 rounded-full px-3  hover:bg-teal-700 cursor-pointer text-sm text-white">
-            &rarr;
-          </span>
-        </div> */}
+
         <div className="hidden">
           <button></button>
         </div>

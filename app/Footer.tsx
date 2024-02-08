@@ -66,7 +66,7 @@ const Footer = () => {
             <span>홈</span>
           </div>
         </Link>
-        <Link href={`/live`}>
+        <Link href={`/stream`}>
           <div className="flex flex-col items-center space-y-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
