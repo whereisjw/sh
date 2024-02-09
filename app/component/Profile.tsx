@@ -18,7 +18,6 @@ interface IReviewResponse {
 
 const Profile = () => {
   const user = useUser();
-  console.log("3", user);
 
   return (
     <>

@@ -295,3 +295,44 @@ main().catch((e) => console.log(e));
         skip: 10 * 프론트페이지-1,
       });
 ```
+
+## 이미지 업로드전 이미지 미리보기 기능
+
+- input 태그생성
+
+```
+     <input
+                {...register("avatar")}
+                id="photo"
+                type="file"
+                accept="image/*"
+                className="hidden"
+              />
+```
+
+- useform훅의 watch를 사용해서 image변경 의존성배열로 useeffect구성, state에 상태 저장
+
+```
+  const avatarChange = watch("avatar");
+  const [avatarPreview, setAvatarPreview] = useState("");
+    useEffect(() => {
+    if (avatarChange && avatarChange.length > 0) {
+      const file = avatarChange[0];
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  }, [avatarChange]);
+```
+
+- img 태그에 src로 적용
+
+```
+<img
+                src={avatarPreview}
+                className="w-14 h-14 rounded-full bg-gray-500 "
+              />
+```
+
+## cloudflare images 를 이용한 이미지 업로드
+
+- 대역폭에서 추가요금을 안내도됨 ( AWS는 내야함)
+- 10만 이미지 전송에 1달러 가격이 합리적임

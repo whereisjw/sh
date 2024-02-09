@@ -3,12 +3,13 @@ import useMutation from "@/app/utils/client/useMutation";
 import useUser from "@/app/utils/client/useUser";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 interface IEdit {
   email: string;
   name: string;
+  avatar?: FileList;
 }
 interface IMutation {
   ok: boolean;
@@ -16,16 +17,25 @@ interface IMutation {
 
 const EditForm = () => {
   const user = useUser();
-  console.log(user);
 
   const router = useRouter();
-  const { handleSubmit, setValue, register } = useForm<IEdit>();
+  const { handleSubmit, setValue, register, watch } = useForm<IEdit>();
+  const avatarChange = watch("avatar");
+  const [avatarPreview, setAvatarPreview] = useState("");
   const [mutation, { loading, data, error }] = useMutation(`/api/users/me`);
+
   const onEditValid = (ValidData: IEdit) => {
-    mutation(ValidData);
+    /*     mutation(ValidData);
     setValue("email", "");
-    setValue("name", "");
+    setValue("name", ""); */
   };
+
+  useEffect(() => {
+    if (avatarChange && avatarChange.length > 0) {
+      const file = avatarChange[0];
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  }, [avatarChange]);
 
   useEffect(() => {
     if (data?.ok === true) {
@@ -40,13 +50,21 @@ const EditForm = () => {
           className="py-10 px-4 space-y-4"
         >
           <div className="flex items-center space-x-3">
-            <div className="w-14 h-14 rounded-full bg-gray-500 " />
+            {avatarPreview ? (
+              <img
+                src={avatarPreview}
+                className="w-14 h-14 rounded-full bg-gray-500 "
+              />
+            ) : (
+              <div className="w-14 h-14 rounded-full bg-gray-500 " />
+            )}
             <label
               htmlFor="photo"
-              className="cursor-pointer py-2 px-3 border-gray-300 rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+              className="cursor-pointer py-2 px-3 border-gray-300 rounded-md shadow-md text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
             >
-              Change Photo
+              프로필 사진 변경
               <input
+                {...register("avatar")}
                 id="photo"
                 type="file"
                 accept="image/*"
