@@ -33,10 +33,10 @@ const EditForm = () => {
         .then((res) => res.data);
       const form = new FormData();
       form.append("file", avatarChange[0], user?.profile?.id + "");
-      axios.post(uploadURL, form);
-
-      return;
-      mutation({ name, email });
+      let avatarURL = await axios
+        .post(uploadURL, form)
+        .then((res) => res.data.result.id);
+      mutation({ name, email, avatarURL });
     } else {
       mutation({ name, email });
     }
@@ -71,7 +71,10 @@ const EditForm = () => {
                 className="w-14 h-14 rounded-full bg-gray-500 "
               />
             ) : (
-              <div className="w-14 h-14 rounded-full bg-gray-500 " />
+              <img
+                src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${user?.profile?.avatar}/public`}
+                className="w-14 h-14 rounded-full bg-gray-500 "
+              />
             )}
             <label
               htmlFor="photo"
@@ -88,8 +91,8 @@ const EditForm = () => {
             </label>
           </div>
           <div className="space-y-1">
-            <div className="text-sm font-medium text-gray-500">
-              Email address
+            <div className="text-sm font-semibold text-gray-400">
+              회원님의 이메일은
             </div>
             <input
               type="email"
@@ -100,7 +103,7 @@ const EditForm = () => {
             />
           </div>
           <div className="space-y-1">
-            <div className="text-sm font-medium text-gray-500">닉네임</div>
+            <div className="text-sm font-semibold text-gray-400">닉네임</div>
             <div className="flex rounded-md shadow-sm">
               <input
                 {...register("name")}

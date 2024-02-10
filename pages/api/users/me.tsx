@@ -19,7 +19,7 @@ interface IResponse {
 export default withIronSessionApiRoute(
   async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
     const { user } = req.session;
-    const { email, name } = req.body;
+    const { email, name, avatarURL } = req.body;
 
     if (req.method === "GET") {
       const profile = await prisma.user.findUnique({
@@ -33,7 +33,7 @@ export default withIronSessionApiRoute(
       res.status(200).json({ profile });
     } //GET
     if (req.method === "POST") {
-      console.log(email, name, user);
+      console.log(email, name, avatarURL);
 
       /*     const UserExist = await prisma.user.findUnique({
         where: {
@@ -45,6 +45,19 @@ export default withIronSessionApiRoute(
           ok: false,
         });
       } */
+      if (avatarURL) {
+        await prisma.user.update({
+          where: {
+            id: user?.id,
+          },
+          data: {
+            email,
+            name,
+            avatar: avatarURL,
+          },
+        });
+      }
+
       await prisma.user.update({
         where: {
           id: user?.id,

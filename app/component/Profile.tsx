@@ -22,7 +22,15 @@ const Profile = () => {
   return (
     <>
       <div className="flex items-center space-x-3">
-        <div className="w-16 h-16 bg-gray-500 rounded-full" />
+        {user?.profile?.avatar ? (
+          <img
+            src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${user?.profile?.avatar}/public`}
+            className="w-16 h-16 bg-gray-500 rounded-full"
+          />
+        ) : (
+          <div className="w-16 h-16 bg-gray-500 rounded-full" />
+        )}
+
         <div className="flex flex-col lg:flex-row lg:items-center">
           <span className="font-medium text-gray-900 text-xl lg:text-2xl cursor-pointer">
             {user?.profile?.name}
