@@ -28,7 +28,14 @@ const List = () => {
             className="flex justify-between border-b pb-4 cursor-pointer"
           >
             <div className="flex space-x-4">
-              <div className="w-20 h-20 bg-gray-400 rounded-md shadow-sm px-4" />
+              {product?.image ? (
+                <img
+                  src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${product.image}/public`}
+                  className="w-20  h-20 bg-gray-400 rounded-md shadow-sm px-4"
+                />
+              ) : (
+                <div className="w-20 h-20 bg-gray-400 rounded-md shadow-sm px-4" />
+              )}
               <div className="pt-2 flex flex-col">
                 <h3 className="text-sm font-medium text-gray-900">
                   <Link href={`/products/${product.id}`}> {product.name} </Link>

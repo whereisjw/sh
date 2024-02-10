@@ -10,7 +10,7 @@ interface IResponse {
 
 export default withIronSessionApiRoute(
   async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
-    const { name, price, description } = req.body;
+    const { name, price, description, avatarURL } = req.body;
     const { user } = req.session;
     if (req.method === "GET") {
       const products = await prisma.product.findMany({
@@ -30,7 +30,7 @@ export default withIronSessionApiRoute(
           name,
           price,
           description,
-          image: "1",
+          image: avatarURL,
           category: "덤벨",
           user: {
             connect: {
