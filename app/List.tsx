@@ -28,9 +28,9 @@ const List = () => {
             className="flex justify-between border-b pb-4 cursor-pointer"
           >
             <div className="flex space-x-4">
-              {product?.image ? (
+              {product?.image && product?.image !== "1" ? (
                 <img
-                  src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${product.image}/public`}
+                  src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${product?.image}/public`}
                   className="w-20  h-20 bg-gray-400 rounded-md shadow-sm px-4"
                 />
               ) : (
