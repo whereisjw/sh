@@ -327,12 +327,21 @@ main().catch((e) => console.log(e));
 
 ```
 <img
-                src={avatarPreview}
-                className="w-14 h-14 rounded-full bg-gray-500 "
-              />
+src={avatarPreview}
+className="w-14 h-14 rounded-full bg-gray-500 "
+/>
 ```
 
 ## cloudflare images 를 이용한 이미지 업로드
 
-- 대역폭에서 추가요금을 안내도됨 ( AWS는 내야함)
-- 10만 이미지 전송에 1달러 가격이 합리적임
+- 10만 이미지 전송에 5달러 가격이 합리적임(이미 결제해버림 ㅠㅠ)
+- DCU 방식으로 진행 (유저의 브라우저에 접근해 직접 업로드하는 방식)
+- - 유저가 서버에 url을 요청하면 서버는 CF한테 URL 을 요청해서 받아서 유저한테 준다.
+- - 이 URL은 30분마다 바뀌고 일회성으로 쓰기에 너무 좋음
+- - 대역폭에 돈을 내지 않기 위함
+- 결제후에 env파일에 세팅함
+
+```
+CF_ID = @@@ (Account ID)
+CF_TOKEN = @@@ (API Token)
+```
