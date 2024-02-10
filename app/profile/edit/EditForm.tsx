@@ -2,6 +2,7 @@
 import useMutation from "@/app/utils/client/useMutation";
 import useUser from "@/app/utils/client/useUser";
 import { User } from "@prisma/client";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,10 +25,24 @@ const EditForm = () => {
   const [avatarPreview, setAvatarPreview] = useState("");
   const [mutation, { loading, data, error }] = useMutation(`/api/users/me`);
 
-  const onEditValid = (ValidData: IEdit) => {
-    /*     mutation(ValidData);
+  const onEditValid = async (ValidData: IEdit) => {
+    const { name, email } = ValidData;
+    if (avatarChange && avatarChange.length > 0) {
+      const { id, uploadURL } = await axios
+        .get(`/api/upload`)
+        .then((res) => res.data);
+      const form = new FormData();
+      form.append("file", avatarChange[0], user?.profile?.id + "");
+      axios.post(uploadURL, form);
+
+      return;
+      mutation({ name, email });
+    } else {
+      mutation({ name, email });
+    }
+
     setValue("email", "");
-    setValue("name", ""); */
+    setValue("name", "");
   };
 
   useEffect(() => {

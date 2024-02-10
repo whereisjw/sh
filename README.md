@@ -345,3 +345,52 @@ className="w-14 h-14 rounded-full bg-gray-500 "
 CF_ID = @@@ (Account ID)
 CF_TOKEN = @@@ (API Token)
 ```
+
+- 프론트단
+
+```
+const onEditValid = async (ValidData: IEdit) => {
+    const { name, email } = ValidData;
+    if (avatarChange && avatarChange.length > 0) {
+      const { id, uploadURL } = await axios
+        .get(`/api/upload`)
+        .then((res) => res.data);
+      const form = new FormData();
+      form.append("file", avatarChange[0], user?.profile?.id + "");
+      axios.post(uploadURL, form);
+
+      return;
+      mutation({ name, email });
+    } else {
+      mutation({ name, email });
+    }
+
+    setValue("email", "");
+    setValue("name", "");
+  };
+```
+
+- 서버단
+
+```
+ if (req.method === "GET") {
+      const response = await (
+        await fetch(
+          `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ID}/images/v2/direct_upload`,
+          {
+            method: "POST",
+            headers: {
+              /*        "Content-Type": "application/json", */
+              Authorization: `Bearer ${process.env.CF_TOKEN}`,
+            },
+          }
+        )
+      ).json();
+      console.log(response);
+
+      res.json({
+        ok: true,
+        ...response.result,
+      });
+    } //GET
+```
