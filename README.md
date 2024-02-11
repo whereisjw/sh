@@ -394,3 +394,32 @@ const onEditValid = async (ValidData: IEdit) => {
       });
     } //GET
 ```
+
+## image 태그 사용시 에러해결
+
+```
+// next.config.mjs
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: { domains: ["imagedelivery.net"] },
+};
+
+export default nextConfig;
+
+```
+
+```
+// image태그 쓰는법
+          <Image
+            width={48}
+            height={48}
+            alt=""
+            src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${data?.product.user.avatar}/public`}
+            className="w-12 h-12 rounded-full bg-gray-300"
+          />
+```
+
+## 라이브스트림기능 Cloudflare Stream
+
+- https://developers.cloudflare.com/stream/
+- OBS Studio https://obsproject.com/ko

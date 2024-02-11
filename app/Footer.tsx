@@ -47,23 +47,27 @@ const Footer = () => {
             <span>커뮤니티</span>
           </div>
         </Link>
-        <Link href={`/main`}>
+        <Link href={`/profile/love`}>
           <div className="flex flex-col items-center space-y-2">
             <svg
-              xmlns="http://www.w3.org/2000/svg"
+              className={
+                pathname === "/profile/love"
+                  ? `fill-teal-500 w-6 h-6 stroke-none`
+                  : `w-6 h-6 `
+              }
               fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
               stroke="currentColor"
-              className="w-6 h-6"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
-              />
+                strokeWidth="2"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+              ></path>
             </svg>
-            <span>홈</span>
+            <span>찜목록</span>
           </div>
         </Link>
         <Link href={`/stream`}>

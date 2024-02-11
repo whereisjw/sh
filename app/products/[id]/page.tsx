@@ -2,6 +2,7 @@
 import { fetcher } from "@/app/utils/client/fetcher";
 import useMutation from "@/app/utils/client/useMutation";
 import { Product, User } from "@prisma/client";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -49,10 +50,13 @@ const page = ({ params }: IParams) => {
           <div className="h-96 bg-gray-300" />
         )}
 
-        <div className="flex cursor-pointer py-3 border-b border-t items-center space-x-3">
+        <div className="relative flex cursor-pointer py-3 border-b border-t items-center space-x-3">
           <img
+            width={48}
+            height={48}
+            alt=""
             src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${data?.product.user.avatar}/public`}
-            className="w-12 h-12 rounded-full bg-gray-300"
+            className="  w-12 h-12 rounded-full bg-gray-300"
           />
           <div>
             <p className="text-sm font-medium text-gray-700">
