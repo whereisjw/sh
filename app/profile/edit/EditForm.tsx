@@ -17,7 +17,7 @@ interface IMutation {
 }
 
 const EditForm = () => {
-  const user = useUser();
+  const { data: user, isLoading: userLoading } = useUser();
 
   const router = useRouter();
   const { handleSubmit, setValue, register, watch } = useForm<IEdit>();

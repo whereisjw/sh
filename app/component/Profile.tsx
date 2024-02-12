@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import useUser from "../utils/client/useUser";
 import useSWR from "swr";
 import { fetcher } from "../utils/client/fetcher";
 import { Review, User } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 interface reviewWithUser extends Review {
   createBy: User;
@@ -17,7 +18,13 @@ interface IReviewResponse {
 }
 
 const Profile = () => {
-  const user = useUser();
+  const { data: user, isLoading: userLoading } = useUser();
+  const router = useRouter();
+  useEffect(() => {
+    if (!userLoading && !user) {
+      router.push("/login");
+    }
+  }, [user, router]);
 
   return (
     <>

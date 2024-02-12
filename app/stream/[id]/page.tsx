@@ -24,7 +24,7 @@ interface SWRResponse {
   stream: StreamWithMessages;
 }
 const page = ({ params }: IParams) => {
-  const user = useUser();
+  const { data: user, isLoading: userLoading } = useUser();
   const { data, mutate } = useSWR<SWRResponse>(
     `/api/streams/${params.id}`,
     fetcher,
