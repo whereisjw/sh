@@ -10,10 +10,13 @@ interface IResponse {
 
 export default withIronSessionApiRoute(
   async function handler(req: NextApiRequest, res: NextApiResponse<IResponse>) {
+    const { page } = req.query;
     const { name, price, description, avatarURL } = req.body;
     const { user } = req.session;
     if (req.method === "GET") {
       const products = await prisma.product.findMany({
+        take: 4,
+        skip: 4 * (Number(page) - 1),
         include: {
           _count: {
             select: {
@@ -22,7 +25,8 @@ export default withIronSessionApiRoute(
           },
         },
       });
-      res.json({ products });
+
+      res.json({ products, length: products.length });
     }
     if (req.method === "POST") {
       const products = await prisma.product.create({

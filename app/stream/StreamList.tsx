@@ -1,6 +1,6 @@
 "use client";
 import { Stream } from "@prisma/client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import useSWR from "swr";
 import { fetcher } from "../utils/client/fetcher";
@@ -22,6 +22,7 @@ const StreamList = () => {
     set === "plus" ? setCurrentPage((prev) => prev + 1) : null;
     set === "minus" ? setCurrentPage((prev) => prev - 1) : null;
   };
+
   return (
     <>
       {data?.stream.map((v) => (

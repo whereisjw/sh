@@ -1,8 +1,11 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import useSWR from "swr";
 import { fetcher } from "../utils/client/fetcher";
 import { Product, Sale } from "@prisma/client";
+import Link from "next/link";
+import useMutation from "../utils/client/useMutation";
+import { useRouter } from "next/navigation";
 
 interface productWithCount extends Product {
   _count: {
@@ -20,6 +23,16 @@ interface RESPONSE {
 }
 
 const Profile_upload = () => {
+  const router = useRouter();
+  const [logoutFn, { loading, data, error }] = useMutation(`/api/users/logout`);
+  useEffect(() => {
+    if (data && data.ok) {
+      router.push("/login");
+    }
+  }, [data, router]);
+  const onLogoutClick = () => {
+    logoutFn({});
+  };
   return (
     <>
       <div className="bg-gray-500  border shadow-md rounded-lg px-4 py-8 my-5 text-sm lg:text-base">
@@ -35,15 +48,18 @@ const Profile_upload = () => {
       <div className="bg-gray-500  border shadow-md rounded-lg px-4 py-8 my-5 text-sm lg:text-base">
         <ul>
           <li className="hover:text-white border border-b-0  border-gray-400 py-2 px-1 text-gray-400 text-sm font-bold ">
-            판매 내역
+            <Link href={"/profile/sold"}>판매 내역</Link>
           </li>
           <li className="hover:text-white border border-b-0  border-gray-400 py-2 px-1 text-gray-400 text-sm font-bold ">
-            구매 내역
+            <Link href={"/profile/buy"}>구매 내역</Link>
           </li>
           <li className="hover:text-white border border-b-0  border-gray-400 py-2 px-1 text-gray-400 text-sm font-bold ">
-            찜목록
+            <Link href={"/profile/love"}>찜목록</Link>
           </li>
-          <li className="group cursor-pointer border border-gray-400 py-2 px-1 text-red-400 text-sm font-bold flex items-center space-x-2 hover:text-red-500">
+          <li
+            onClick={onLogoutClick}
+            className="group cursor-pointer border border-gray-400 py-2 px-1 text-red-400 text-sm font-bold flex items-center space-x-2 hover:text-red-500"
+          >
             <svg
               className="text-sm w-5 h-5 fill-red-400 group-hover:fill-red-500"
               xmlns="http://www.w3.org/2000/svg"

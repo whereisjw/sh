@@ -12,7 +12,7 @@ const page = () => {
       <Profile />
       <Profile_cash />
       <Profile_upload />
-      <div className="mt-10 flex justify-around">
+      {/*      <div className="mt-10 flex justify-around">
         <div className="flex flex-col items-center">
           <div className="w-14 h-14 bg-teal-500 rounded-full flex items-center justify-center text-white">
             <svg
@@ -82,8 +82,8 @@ const page = () => {
             관심목록
           </span>
         </div>
-      </div>
-      <Profile_reviews />
+      </div> */}
+      {/*       <Profile_reviews /> */}
     </div>
   );
 };

@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useUser from "./utils/client/useUser";
 import Link from "next/link";
 import useSWR from "swr";
 import { fetcher } from "./utils/client/fetcher";
 import { Product } from "@prisma/client";
+import Loading from "./Loading";
 
 interface ProductWithCount extends Product {
   _count: { Like: number };
@@ -12,16 +13,39 @@ interface ProductWithCount extends Product {
 
 interface ISWR {
   ok?: boolean;
+  length: number;
   products: ProductWithCount[];
 }
 
 const List = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(false);
+  const handleCurrentPageClick = (set: string) => {
+    set === "plus" ? setCurrentPage((prev) => prev + 1) : null;
+    if (set === "minus") {
+      setCurrentPage((prev) => prev - 1);
+      setLastPage(false);
+    }
+  };
   const user = useUser();
-  const { data } = useSWR<ISWR>("/api/products", fetcher);
-
+  const { data } = useSWR<ISWR>(`/api/products?page=${currentPage}`, fetcher);
+  useEffect(() => {
+    if (data && data.length < 4) {
+      setLastPage(true);
+    }
+    if (data && data.length === 0) {
+      setLastPage(true);
+      setCurrentPage((prev) => prev - 1);
+    }
+  }, [currentPage, data]);
   return (
     <>
       <div className="flex flex-col space-y-5 py-10">
+        {!data && (
+          <>
+            <Loading />
+          </>
+        )}
         {data?.products?.map((product, index) => (
           <div
             key={index}
@@ -31,7 +55,7 @@ const List = () => {
               {product?.image && product?.image !== "1" ? (
                 <img
                   src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${product?.image}/public`}
-                  className="w-20  h-20 bg-gray-400 rounded-md shadow-sm px-4"
+                  className="w-20  h-20 bg-white rounded-md shadow-sm px-4"
                 />
               ) : (
                 <div className="w-20 h-20 bg-gray-400 rounded-md shadow-sm px-4" />
@@ -44,7 +68,7 @@ const List = () => {
                   {product.category}
                 </span>
                 <span className="font-medium mt-1 text-gray-900">
-                  {product.price}원
+                  {Number(product.price).toLocaleString()}원
                 </span>
               </div>
             </div>
@@ -66,45 +90,61 @@ const List = () => {
                 </svg>
                 <span>{product._count.Like}</span>
               </div>
-              <div className="flex items-center text-sm text-gray-600 space-x-0.5">
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-                  ></path>
-                </svg>
-                <span>1</span>
-              </div>
             </div>
           </div>
         ))}
-        <button className="fixed bottom-24 right-5 hover:bg-teal-500 cursor-pointer transition-colors bg-teal-400 rounded-full p-4 text-white shadow-xl">
-          <Link href={`products/upload`}>
-            <svg
-              className="h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
+        <ul className="flex items-center space-x-2 justify-center">
+          <li>
+            <button
+              onClick={() => handleCurrentPageClick("minus")}
+              type="button"
+              disabled={currentPage === 1}
+              className={
+                currentPage === 1
+                  ? `bg-gray-500 rounded-xl px-2 py-1`
+                  : `bg-teal-500 rounded-xl px-2 py-1`
+              }
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-          </Link>
-        </button>
+              이전
+            </button>
+          </li>
+          <li>page : {currentPage}</li>
+          <li>
+            <button
+              disabled={lastPage}
+              onClick={() => handleCurrentPageClick("plus")}
+              type="button"
+              className={
+                lastPage
+                  ? `bg-gray-500 rounded-xl px-2 py-1`
+                  : `bg-teal-500 rounded-xl px-2 py-1`
+              }
+            >
+              다음
+            </button>
+          </li>
+        </ul>
+        <Link
+          href={`products/upload`}
+          className="fixed bottom-24 right-5 hover:bg-teal-500 cursor-pointer transition-colors bg-teal-400 rounded-full p-4 text-white shadow-xl"
+        >
+          {/*           <Link href={`products/upload`}> */}
+          <svg
+            className="h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+            />
+          </svg>
+        </Link>
       </div>
     </>
   );

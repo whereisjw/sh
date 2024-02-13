@@ -11,7 +11,7 @@ const Header = () => {
         <div className=" z-10 bg-white w-full h-[15vh] border-b border-gray-300 fixed top-0">
           <div className="h-[6vh]   flex items-center justify-center bg-teal-500 text-white">
             <div className="text-center text-[12px] flex justify-center items-center font-medium">
-              <span>중고홈짐의 메카 하마핏마켓에 오신걸 환영합니다.</span>
+              <span>중고홈짐의 메카 하마마켓에 오신걸 환영합니다.</span>
             </div>
           </div>
           <div className="flex w-full justify-between items-center h-[9vh]   py-4 px-8">
