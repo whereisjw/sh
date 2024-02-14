@@ -64,7 +64,14 @@ export default withIronSessionApiRoute(
           include: {
             seller: true,
             buyer: true,
-            DM: true,
+            DM: {
+              include: {
+                user: true,
+              },
+              orderBy: {
+                createdAt: "desc",
+              },
+            },
           },
         });
 
