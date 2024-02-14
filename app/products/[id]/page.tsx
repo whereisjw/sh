@@ -39,7 +39,7 @@ const page = ({ params }: IParams) => {
   }, []);
   useEffect(() => {
     if (dmData && dmData.ok) {
-      /*   router.push(`/dm/${dmData.room}`); */
+      router.push(`/dm/${dmData.room}`);
     }
   }, [dmData, router]);
 
