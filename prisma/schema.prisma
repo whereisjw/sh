@@ -34,8 +34,8 @@ model User {
   Record   Record[]
   Stream   Stream[]
   Message  Message[]
-  seller   DM[]       @relation(name: "seller")
-  buyer    DM[]       @relation(name: "buyer")
+  seller   DMRoom[]   @relation(name: "seller")
+  buyer    DMRoom[]   @relation(name: "buyer")
 }
 
 model Token {
@@ -215,17 +215,28 @@ model Message {
   @@index([userId])
 }
 
-model DM {
+model DMRoom {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  DM        String   @db.MediumText
+  private   String   @unique @db.VarChar(50)
   seller    User     @relation(name: "seller", fields: [sellerId], references: [id])
   sellerId  Int
   buyer     User     @relation(name: "buyer", fields: [buyerId], references: [id])
   buyerId   Int
-  score     Int      @default(1)
+  DM        DM[]
 
   @@index([sellerId])
   @@index([buyerId])
+}
+
+model DM {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  dm        String?  @db.MediumText
+  dmroom    DMRoom   @relation(fields: [dmroomId], references: [id])
+  dmroomId  Int
+
+  @@index([dmroomId])
 }

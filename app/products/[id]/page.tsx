@@ -5,7 +5,7 @@ import { Product, User } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import useSWR from "swr";
 
 interface IParams {
@@ -28,10 +28,26 @@ const page = ({ params }: IParams) => {
 
   const [mutation, { loading: likeLoading, data: likeData, error: likeError }] =
     useMutation(`/api/products/${params.id}/like`);
+
+  const [dmMutation, { loading: dmLoading, data: dmData }] =
+    useMutation(`/api/dm`);
+
+  const onDMClick = useCallback(() => {
+    dmMutation({
+      id: params.id,
+    });
+  }, []);
+  useEffect(() => {
+    if (dmData && dmData.ok) {
+      /*   router.push(`/dm/${dmData.room}`); */
+    }
+  }, [dmData, router]);
+
   const { data, mutate } = useSWR<ItemDetailResponse>(
     params.id ? `/api/products/${params.id}` : null,
     fetcher
   );
+
   const onLikeClick = () => {
     mutation({});
     if (!data) return;
@@ -80,8 +96,11 @@ const page = ({ params }: IParams) => {
             {data?.product?.description}
           </p>
           <div className="flex items-center justify-between space-x-2">
-            <button className="flex-1 bg-teal-500 text-white py-3 rounded-md font-medium hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
-              Talk to seller
+            <button
+              onClick={onDMClick}
+              className="flex-1 bg-teal-500 text-white py-3 rounded-md font-medium hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+            >
+              판매자와 대화하기
             </button>
             <button
               onClick={onLikeClick}

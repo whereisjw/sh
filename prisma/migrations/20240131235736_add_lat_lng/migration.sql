@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE `post` ADD COLUMN `lat` DOUBLE NULL,
-    ADD COLUMN `lng` DOUBLE NULL;

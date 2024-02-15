@@ -44,7 +44,7 @@ export default withIronSessionApiRoute(
         },
       });
       res.json({ ok: true, products });
-    } //GET
+    } //POST
   },
   {
     cookieName: "shSession",

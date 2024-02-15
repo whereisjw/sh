@@ -37,9 +37,10 @@ const page = () => {
         .post(uploadURL, form)
         .then((res) => res.data.result.id);
       mutation({ name, price, description, avatarURL });
+    } else {
+      mutation({ name, price, description });
     }
     if (loading) return false;
-    mutation({ name, price, description, avatarURL: "1" });
   };
 
   const watchPhoto = watch("photo");
