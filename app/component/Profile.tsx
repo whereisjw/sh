@@ -1,4 +1,6 @@
 "use client";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import useUser from "../utils/client/useUser";
@@ -35,12 +37,13 @@ const Profile = () => {
             className="w-16 h-16 bg-gray-500 rounded-full"
           />
         ) : (
-          <div className="w-16 h-16 bg-gray-500 rounded-full" />
+          <Skeleton width={64} height={64} borderRadius={100} />
         )}
 
         <div className="flex flex-col lg:flex-row lg:items-center">
           <span className="font-medium text-gray-900 text-xl lg:text-2xl cursor-pointer">
             {user?.profile?.name}
+            {!user?.profile?.name && <Skeleton width={100} />}
           </span>
           <Link
             href={"/profile/edit"}

@@ -5,6 +5,7 @@ import { fetcher } from "../utils/client/fetcher";
 import { DM, DMRoom, User } from "@prisma/client";
 import Link from "next/link";
 import useUser from "../utils/client/useUser";
+import DMLoading from "./DMLoading";
 
 interface DMWithUser extends DM {
   user: User;
@@ -28,8 +29,9 @@ const page = () => {
 
   return (
     <div className="flex flex-col space-y-5 py-10">
+      {!data && <DMLoading />}
       {data?.myDmList?.map((value, index) => (
-        <Link href={`/dm/${value.id}`} className="flex">
+        <Link key={value.id} href={`/dm/${value.id}`} className="flex">
           {user?.profile?.id === value.buyerId && value.seller.avatar && (
             <img
               src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${value.seller.avatar}/public`}
