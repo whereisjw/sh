@@ -30,17 +30,25 @@ const page = () => {
     <div className="flex flex-col space-y-5 py-10">
       {data?.myDmList?.map((value, index) => (
         <Link href={`/dm/${value.id}`} className="flex">
-          {user?.profile?.id === value.buyerId && (
+          {user?.profile?.id === value.buyerId && value.seller.avatar && (
             <img
               src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${value.seller.avatar}/public`}
               className="w-20 h-20 bg-gray-500 rounded-full"
             />
           )}
-          {user?.profile?.id === value.sellerId && (
+          {user?.profile?.id === value.sellerId && value.buyer.avatar && (
             <img
               src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${value.buyer.avatar}/public`}
               className="w-20 h-20 bg-gray-500 rounded-full"
             />
+          )}
+
+          {user?.profile?.id === value.sellerId && !value.buyer.avatar && (
+            <div className="w-20 h-20 bg-gray-500 rounded-full" />
+          )}
+
+          {user?.profile?.id === value.buyerId && !value.seller.avatar && (
+            <div className="w-20 h-20 bg-gray-500 rounded-full" />
           )}
 
           <div className="pl-3  w-full">

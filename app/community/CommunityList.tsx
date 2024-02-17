@@ -36,7 +36,7 @@ const CommunityList = () => {
           className="flex cursor-pointer flex-col items-start "
         >
           <span className="flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100  text-gray-800">
-            동네질문
+            히포질문
           </span>
           <span className="mt-2 text-gray-700">
             <span className="text-teal-500 font-medium">Q.</span>{" "}
@@ -44,7 +44,7 @@ const CommunityList = () => {
           </span>
           <div className="mt-5 flex items-center justify-between w-full text-gray-500 font-medium text-xs">
             <span>{post.user.name}</span>
-            <span>{post.createdAt.toLocaleString()}</span>
+            <span>{post?.createdAt?.toLocaleString().split("T")[0]}</span>
           </div>
           <div className="flex space-x-5 mt-3 text-gray-700 py-2.5 border-t border-b-[1.5px] w-full">
             <span className="flex space-x-2 items-center text-sm">

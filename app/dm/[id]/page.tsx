@@ -51,7 +51,6 @@ const page = ({ params }: IProps) => {
   }, [onValid, mutationData]);
   return (
     <>
-      {/*    src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${user?.profile?.avatar}/public`} */}
       <div className="pt-10  space-y-3  pb-[10vh]">
         {data?.dms?.map((v) => (
           <>
@@ -60,7 +59,7 @@ const page = ({ params }: IProps) => {
                 <div className="w-1/2 text-sm text-gray-700 p-2 border  border-gray-600 rounded-md">
                   {v.dm}
                 </div>
-                {v.user.avatar ? (
+                {v.user.avatar !== null ? (
                   <img
                     src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${v.user.avatar}/public`}
                     className="w-8 h-8 bg-gray-500 rounded-full"
@@ -71,7 +70,7 @@ const page = ({ params }: IProps) => {
               </div>
             ) : (
               <div className="flex items-center space-x-2">
-                {v.user.avatar ? (
+                {v.user.avatar !== null ? (
                   <img
                     src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${v.user.avatar}/public`}
                     className="w-8 h-8 bg-gray-500 rounded-full"

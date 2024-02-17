@@ -90,7 +90,7 @@ const page = ({ params }: IParams) => {
             {data?.product?.name}
           </h1>
           <span className="text-3xl mt-3 text-gray-900">
-            ${data?.product?.price}
+            ₩{Number(data?.product?.price).toLocaleString()}원
           </span>
           <p className="text-base my-6 text-gray-700">
             {data?.product?.description}
@@ -130,10 +130,18 @@ const page = ({ params }: IParams) => {
         <div className="mt-6 grid grid-cols-2 gap-4">
           {data?.relatedProduct?.map((v, i) => (
             <div key={i}>
-              <div className="h-56 w-full bg-gray-300" />
+              {v?.image ? (
+                <img
+                  src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${v?.image}/public`}
+                  className="h-56 w-full bg-gray-300"
+                />
+              ) : (
+                <div className="h-56 w-full bg-gray-300" />
+              )}
+
               <h3 className="text-sm text-gray-700">{v.name}</h3>
               <span className="text-sm font-medium text-gray-500">
-                ${v.price}
+                ₩{Number(v.price).toLocaleString()}원
               </span>
             </div>
           ))}
