@@ -1,10 +1,29 @@
 "use client";
 import { motion } from "framer-motion";
 import Link, { useRouter } from "next/navigation";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
+import useUser from "./utils/client/useUser";
+import useMutation from "./utils/client/useMutation";
 
 const Header = () => {
+  const { data: user, isLoading: userLoading } = useUser();
   const router = useRouter();
+  const [logoutFn, { data }] = useMutation(`/api/users/logout`);
+
+  const onLoginClick = useCallback(() => {
+    router.push("/login");
+  }, []);
+
+  const onLogoutClick = useCallback(() => {
+    logoutFn({});
+  }, []);
+
+  useEffect(() => {
+    if (data && data.ok) {
+      router.push("/login");
+    }
+  }, [data, router]);
+
   return (
     <>
       <div className="mt-[15vh] ">
@@ -14,8 +33,8 @@ const Header = () => {
               <span>중고홈짐의 메카 하마마켓에 오신걸 환영합니다.</span>
             </div>
           </div>
-          <div className="flex w-full justify-between items-center h-[9vh]   py-4 px-8">
-            <div className="lg:block hidden w-[33%] text-[12px] space-x-[15px] font-medium">
+          <div className="flex w-full justify-between items-center h-[9vh]   py-4  px-4 lg:px-8">
+            <div className="  w-[33%] text-[12px] space-x-[15px] font-medium">
               <span className="cursor-pointer">
                 <motion.svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -30,63 +49,51 @@ const Header = () => {
                 </motion.svg>
               </span>
             </div>
-            <div className="flex items-center w-[33%] lg:hidden">
-              <span className=" text-[12px] flex items-center justify-center">
-                영상
-              </span>
-            </div>
+
             <div
               onClick={() => {
                 router.push("/");
               }}
-              className="w-[33%] flex justify-center text-4xl font-bold cursor-pointer text-teal-500"
+              className="w-[33%] flex justify-center text-2xl md:text-3xl lg:text-4xl font-bold cursor-pointer text-teal-500"
             >
+              하마마켓
               <img src="" alt="" />
             </div>
-            <div className="hidden w-[33%] text-[12px] lg:flex justify-end items-center space-x-[15px]">
-              <span className="cursor-pointer">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-4 h-4"
+            <div className="  w-[33%] text-[12px] lg:flex justify-end items-center space-x-[15px]">
+              {!userLoading && !user && (
+                <div
+                  onClick={onLoginClick}
+                  className="flex flex-col items-end cursor-pointer"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                  />
-                </svg>
-              </span>
-
-              <span
-                onClick={() => {
-                  router.push("/login");
-                }}
-                className="cursor-pointer"
-              >
-                로그인
-              </span>
-            </div>
-            <div className="lg:hidden lg:w-0  w-[33%] flex justify-end items-center">
-              <span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-7 h-7"
+                  <div className="flex flex-col items-center">
+                    <svg
+                      className="h-6 w-6 fill-teal-500"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                    >
+                      <path d="M352 96l64 0c17.7 0 32 14.3 32 32l0 256c0 17.7-14.3 32-32 32l-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0c53 0 96-43 96-96l0-256c0-53-43-96-96-96l-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32zm-9.4 182.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L242.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" />
+                    </svg>
+                    <span className="text-teal-500">로그인</span>
+                  </div>
+                </div>
+              )}
+              {!userLoading && user && (
+                <div
+                  onClick={onLogoutClick}
+                  className="flex flex-col items-end cursor-pointer"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                  />
-                </svg>
-              </span>
+                  <div className="flex flex-col items-center">
+                    <svg
+                      className="h-6 w-6 fill-teal-500"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                    >
+                      <path d="M352 96l64 0c17.7 0 32 14.3 32 32l0 256c0 17.7-14.3 32-32 32l-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l64 0c53 0 96-43 96-96l0-256c0-53-43-96-96-96l-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32zm-9.4 182.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L242.7 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128z" />
+                    </svg>
+                    <span className="text-teal-500">로그아웃</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

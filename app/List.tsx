@@ -6,6 +6,7 @@ import useSWR from "swr";
 import { fetcher } from "./utils/client/fetcher";
 import { Product } from "@prisma/client";
 import Loading from "./Loading";
+import { useRouter } from "next/navigation";
 
 interface ProductWithCount extends Product {
   _count: { Like: number };
@@ -27,7 +28,9 @@ const List = () => {
       setLastPage(false);
     }
   };
-  const user = useUser();
+  const { data: user, isLoading: userLoading } = useUser();
+  const router = useRouter();
+
   const { data } = useSWR<ISWR>(`/api/products?page=${currentPage}`, fetcher);
   useEffect(() => {
     if (data && data.length < 4) {
@@ -38,6 +41,9 @@ const List = () => {
       setCurrentPage((prev) => prev - 1);
     }
   }, [currentPage, data]);
+  if (!userLoading && !user) {
+    router.push("/login");
+  }
   return (
     <>
       <div className="flex flex-col space-y-5 py-10">

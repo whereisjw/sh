@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import useMutation from "../utils/client/useMutation";
 import { useRouter } from "next/navigation";
+import useUser from "../utils/client/useUser";
 
 interface IForm {
   email?: string;
@@ -19,6 +20,7 @@ interface IData {
 
 const Enter = () => {
   const [enter, { loading, data, error }] = useMutation("api/users/login");
+  const { data: user, isLoading: userLoading } = useUser();
   const [confirmToken, { loading: tokenLoading, data: TokenData }] =
     useMutation("api/users/confirm");
   const { register, handleSubmit, setValue } = useForm<IForm>();
@@ -29,8 +31,8 @@ const Enter = () => {
   } = useForm<TokenForm>();
   const router = useRouter();
   const onTokenValid = (tokenValid: TokenForm) => {
-    console.log(tokenValid);
     confirmToken(tokenValid);
+    router.push("/");
   };
 
   const onValid = (formData: IForm) => {
@@ -39,10 +41,10 @@ const Enter = () => {
   };
 
   useEffect(() => {
-    if (TokenData?.ok) {
+    if (!userLoading && user && TokenData && TokenData.ok) {
       router.push("/");
     }
-  }, [TokenData]);
+  }, [router, TokenData, user]);
 
   return (
     <div className="fixed top-[50%]  translate-y-[-50%] border border-teal-500 rounded-md shadow-md py-4 px-8">

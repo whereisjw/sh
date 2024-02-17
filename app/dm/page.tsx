@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import useSWR from "swr";
 import { fetcher } from "../utils/client/fetcher";
 import { DM, DMRoom, User } from "@prisma/client";
 import Link from "next/link";
 import useUser from "../utils/client/useUser";
 import DMLoading from "./DMLoading";
+import { useRouter } from "next/navigation";
 
 interface DMWithUser extends DM {
   user: User;
@@ -24,8 +25,12 @@ interface SWRResponse {
 }
 const page = () => {
   const { data } = useSWR<SWRResponse>(`/api/dm`, fetcher);
-  const { data: user } = useUser();
-  console.log(data);
+  const { data: user, isLoading: userLoading } = useUser();
+  const router = useRouter();
+
+  if (!userLoading && !user) {
+    router.push("/login");
+  }
 
   return (
     <div className="flex flex-col space-y-5 py-10">

@@ -4,8 +4,6 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import useUser from "../utils/client/useUser";
-import useSWR from "swr";
-import { fetcher } from "../utils/client/fetcher";
 import { Review, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 
@@ -22,11 +20,10 @@ interface IReviewResponse {
 const Profile = () => {
   const { data: user, isLoading: userLoading } = useUser();
   const router = useRouter();
-  useEffect(() => {
-    if (!userLoading && !user) {
-      router.push("/login");
-    }
-  }, [user, router]);
+
+  if (!userLoading && !user) {
+    router.push("/login");
+  }
 
   return (
     <>

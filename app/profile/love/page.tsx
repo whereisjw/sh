@@ -1,9 +1,11 @@
 "use client";
 import { fetcher } from "@/app/utils/client/fetcher";
 import { Like, Product } from "@prisma/client";
-import React from "react";
+import React, { useEffect } from "react";
 import useSWR from "swr";
 import LoadingLove from "./LoadingLove";
+import useUser from "@/app/utils/client/useUser";
+import { useRouter } from "next/navigation";
 interface ProductWithCount extends Product {
   _count: {
     Like: number;
@@ -20,7 +22,11 @@ interface ISWRResponse {
 }
 const page = () => {
   const { data } = useSWR<ISWRResponse>(`/api/users/me/fav`, fetcher);
-
+  const { data: user, isLoading: userLoading } = useUser();
+  const router = useRouter();
+  if (!userLoading && !user) {
+    router.push("/login");
+  }
   return (
     <div className="grid grid-cols-1 gap-3   lg:grid-cols-2   py-10">
       {!data && <LoadingLove />}

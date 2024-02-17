@@ -6,6 +6,7 @@ import { Post, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import useCoords from "../utils/client/useCoords";
 import LadingCommunityList from "./LadingCommunityList";
+import useUser from "../utils/client/useUser";
 
 interface WithUSer extends Post {
   user: User;
@@ -26,7 +27,12 @@ const CommunityList = () => {
     `/api/posts?latitude=${latitude}&longitude=${longitude}`,
     fetcher
   );
+
+  const { data: user, isLoading: userLoading } = useUser();
   const router = useRouter();
+  if (!userLoading && !user) {
+    router.push("/login");
+  }
 
   return (
     <>
