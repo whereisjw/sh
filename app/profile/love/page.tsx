@@ -3,6 +3,7 @@ import { fetcher } from "@/app/utils/client/fetcher";
 import { Like, Product } from "@prisma/client";
 import React from "react";
 import useSWR from "swr";
+import LoadingLove from "./LoadingLove";
 interface ProductWithCount extends Product {
   _count: {
     Like: number;
@@ -22,19 +23,9 @@ const page = () => {
 
   return (
     <div className="grid grid-cols-1 gap-3   lg:grid-cols-2   py-10">
+      {!data && <LoadingLove />}
       {data?.fav?.map((value) => (
         <div key={value.id} className="col-span-1">
-          {/* 
-           {value?.image && value?.image !== "1" ? (
-                <img
-                  src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${product?.image}/public`}
-                  className="h-56 w-full bg-white rounded-md shadow-sm px-4"
-                />
-              ) : (
-                <div className="h-56 w-full bg-gray-400 rounded-md shadow-sm px-4" />
-              )}
-          
-          */}
           {value?.product.image && value?.product.image !== "1" ? (
             <img
               src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${value?.product?.image}/public`}
