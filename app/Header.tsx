@@ -23,7 +23,6 @@ const Header = () => {
       router.push("/login");
     }
   }, [data, router]);
-  console.log(user);
 
   return (
     <>
