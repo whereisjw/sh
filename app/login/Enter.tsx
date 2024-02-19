@@ -82,7 +82,7 @@ const Enter = () => {
             {...register("email", { required: true })}
           />
           <button className="bg-teal-500 rounded-md py-2 px-4 text-white font-semibold shadow-sm hover:bg-teal-600 focus:ring focus:ring-teal-500   ">
-            인증번호 전송
+            {loading ? "메일전송중.." : "인증번호 전송"}
           </button>
         </form>
       )}

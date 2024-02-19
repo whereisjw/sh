@@ -56,9 +56,8 @@ export default async function handler(
       });
       smtpTransport.close();
       console.log(result);
+      res.status(200).json({ ok: true });
     }
-
-    res.status(200).json({ ok: true });
   } //post
 }
 /* 
