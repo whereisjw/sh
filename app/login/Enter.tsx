@@ -36,8 +36,8 @@ const Enter = () => {
   };
 
   const onValid = (formData: IForm) => {
-    setValue("email", "");
     enter(formData);
+    setValue("email", "");
   };
   useEffect(() => {
     if (user && user.ok) {
