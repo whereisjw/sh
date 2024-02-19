@@ -41,7 +41,7 @@ const Enter = () => {
   };
   useEffect(() => {
     if (user && user.ok) {
-      router.push("/");
+      router.push("/list");
     }
   }, [user, data]);
 

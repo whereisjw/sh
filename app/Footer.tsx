@@ -12,7 +12,7 @@ const Footer = () => {
   return (
     <div className="mb-[15vh]">
       <div className="bg-white    text-gray-700 border-t  fixed bottom-0 w-full px-10 pb-5 pt-3 flex justify-between text-xs">
-        <Link href={`/`}>
+        <Link href={`/list`}>
           <div className="flex flex-col items-center space-y-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"

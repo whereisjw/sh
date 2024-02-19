@@ -25,7 +25,9 @@ export default withIronSessionApiRoute(
           },
         },
       });
-
+      if (!products) {
+        res.json({ ok: false });
+      }
       res.json({ products, length: products.length });
     }
     if (req.method === "POST") {

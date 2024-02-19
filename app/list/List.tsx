@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import useUser from "./utils/client/useUser";
+import useUser from "../utils/client/useUser";
 import Link from "next/link";
 import useSWR from "swr";
-import { fetcher } from "./utils/client/fetcher";
+import { fetcher } from "../utils/client/fetcher";
 import { Product } from "@prisma/client";
-import Loading from "./Loading";
+import Loading from "../Loading";
 import { useRouter } from "next/navigation";
 
 interface ProductWithCount extends Product {
