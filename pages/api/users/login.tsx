@@ -41,18 +41,19 @@ export default async function handler(
         subject: "하마마켓 1회용 인증메일입니다.",
         text: `Authentication Code : ${암호}`,
       };
-      const result = await smtpTransport.sendMail(
-        mailOptions,
-        (error, responses) => {
+      const result = await new Promise((resolve, reject) => {
+        // send mail
+        smtpTransport.sendMail(mailOptions, (error, responses) => {
           if (error) {
-            console.log(error);
+            console.error(error);
+            reject(error);
             return null;
           } else {
             console.log(responses);
             return null;
           }
-        }
-      );
+        });
+      });
       smtpTransport.close();
       console.log(result);
     }
@@ -60,3 +61,14 @@ export default async function handler(
     res.status(200).json({ ok: true });
   } //post
 }
+/* 
+sgMail
+.send(msg)
+.then(() => {
+     console.log('email sent')
+})
+.catch((error) => {
+     console.error("error", error)
+});
+
+*/
