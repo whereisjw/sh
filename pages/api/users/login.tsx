@@ -38,7 +38,7 @@ export default async function handler(
       const mailOptions = {
         from: process.env.MAIL_ID,
         to: email,
-        subject: "Nomad Carrot Authentication Email",
+        subject: "하마마켓 1회용 인증메일입니다.",
         text: `Authentication Code : ${암호}`,
       };
       const result = await smtpTransport.sendMail(
