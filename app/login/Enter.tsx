@@ -45,6 +45,12 @@ const Enter = () => {
     }
   }, [user, router]);
 
+  useEffect(() => {
+    if (TokenData && TokenData.ok) {
+      router.push("/list");
+    }
+  }, [TokenData, router]);
+
   return (
     <div className="fixed top-[50%]  translate-y-[-50%] border border-teal-500 rounded-md shadow-md py-4 px-8">
       {data?.ok ? (
@@ -57,13 +63,13 @@ const Enter = () => {
             인증번호입력
           </legend>
           <input
-            className="border focus:ring focus:ring-teal-500 focus:border-none focus:outline-none rounded-md shadow-sm py-2 px-4"
+            className="border focus:ring focus:ring-teal-500 focus:border-none focus:outline-none rounded-md shadow-sm py-2 px-4 placeholder:text-sm"
             type="text"
-            placeholder="이메일로 받은 인증번호를 입력하세요"
+            placeholder="이메일로 받은 인증번호를 입력"
             {...tokenRegister("token", { required: true })}
           />
           <button className="bg-teal-500 rounded-md py-2 px-4 text-white font-semibold shadow-sm hover:bg-teal-600 focus:ring focus:ring-teal-500   ">
-            {tokenLoading ? "loading" : "로그인하기"}
+            {tokenLoading ? "로그인중..." : "로그인하기"}
           </button>
         </form>
       ) : (

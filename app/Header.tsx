@@ -15,6 +15,8 @@ const Header = () => {
   }, []);
 
   const onLogoutClick = useCallback(() => {
+    router.push("/login");
+    router.refresh();
     logoutFn({});
   }, []);
 
