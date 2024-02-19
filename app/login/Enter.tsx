@@ -43,7 +43,7 @@ const Enter = () => {
     if (user && user.ok) {
       router.push("/list");
     }
-  }, [user, data]);
+  }, [user, router]);
 
   return (
     <div className="fixed top-[50%]  translate-y-[-50%] border border-teal-500 rounded-md shadow-md py-4 px-8">
