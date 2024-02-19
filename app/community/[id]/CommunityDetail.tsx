@@ -89,7 +89,17 @@ const CommunityDetail = ({ params }: IParams) => {
         히포질문
       </span>
       <div className="flex mb-3 cursor-pointer p-3 border-b  items-center space-x-3">
-        <div className="w-10 h-10 rounded-full bg-gray-300" />
+        {data?.post?.user?.avatar ? (
+          <img
+            width={48}
+            height={48}
+            alt=""
+            src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${data?.post.user.avatar}/public`}
+            className="  w-10 h-10 rounded-full bg-gray-300"
+          />
+        ) : (
+          <div className="  w-10 h-10 rounded-full bg-gray-300" />
+        )}
         <div>
           <p className="text-sm font-medium text-gray-700">
             {data?.post?.user?.name}
@@ -157,10 +167,18 @@ const CommunityDetail = ({ params }: IParams) => {
           {data &&
             data?.post.Answer.map((v) => (
               <div key={v.id} className="flex   items-start space-x-3">
-                <span
-                  key={v.id}
-                  className="w-8 h-8 bg-gray-200 rounded-full text-sm font-medium text-gray-500"
-                ></span>
+                {v?.user?.avatar ? (
+                  <img
+                    width={48}
+                    height={48}
+                    alt=""
+                    src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${v.user.avatar}/public`}
+                    className="  w-8 h-8 rounded-full bg-gray-300"
+                  />
+                ) : (
+                  <div className="  w-8 h-8 rounded-full bg-gray-300" />
+                )}
+
                 <span>{v.user.name}</span>
                 <span className="text-sm text-gray-400">
                   {v.createdAt.toLocaleString().split("T")[0]}
