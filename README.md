@@ -45,8 +45,6 @@
 
 ---
 
-vercel 과 AWS Elastic Beanstalk 중 선택 예정
-
 ![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
 ![CloudType](https://img.shields.io/badge/Cloudtype-007ACC?style=for-the-badge)
 
