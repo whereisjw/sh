@@ -2,7 +2,6 @@
 
 ![banner](https://github.com/whereisjw/sh/assets/139869491/7fe8ee2c-3380-4561-b1fc-beada025eccd)
 
-
 ## 프로젝트 소개
 
 - 중고 홈짐을 사고 파는 웹사이트 입니다.
@@ -42,21 +41,17 @@
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
 
-- DEPLOY
+- DEPLOY 배포
 
 ---
 
 vercel 과 AWS Elastic Beanstalk 중 선택 예정
 
-<!-- ![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
-![AWS Elastic Beanstalk](https://img.shields.io/badge/AWS%20Elastic%20Beanstalk-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white) -->
-
-![PlanetScale](https://img.shields.io/badge/PlanetScale-3C4F8A?style=for-the-badge&logo=planetscale&logoColor=white)
+![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
+![CloudType](https://img.shields.io/badge/Cloudtype-007ACC?style=for-the-badge)
 
 ## 기능화면
 
 실제 프로젝트 화면입니다.
 
-<!-- ### 전제 조건
-
-프로젝트를 시작하기 전에 설치해야 할 소프트웨어나 라이브러리를 나열합니다. -->
+- gif 생성중입니다 😂 기다려주세요 ^^
