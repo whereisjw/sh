@@ -21,14 +21,16 @@ const Profile = () => {
   const { data: user, isLoading: userLoading } = useUser();
   const router = useRouter();
 
-  if (!userLoading && !user) {
-    router.push("/login");
-  }
+  useEffect(() => {
+    if (user && user.ok === false) {
+      router.push("/login");
+    }
+  }, [user, router]);
 
   return (
     <>
       <div className="flex items-center space-x-3">
-        {user?.profile?.avatar ? (
+        {user?.profile?.avatar !== null ? (
           <img
             src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${user?.profile?.avatar}/public`}
             className="w-16 h-16 bg-gray-500 rounded-full"

@@ -63,17 +63,22 @@ const page = ({ params }: IParams) => {
             className="h-96 w-full bg-gray-300"
           />
         ) : (
-          <div className="h-96 bg-gray-300" />
+          <div className="h-96  w-full bg-gray-300" />
         )}
 
         <div className="relative flex cursor-pointer py-3 border-b border-t items-center space-x-3">
-          <img
-            width={48}
-            height={48}
-            alt=""
-            src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${data?.product.user.avatar}/public`}
-            className="  w-12 h-12 rounded-full bg-gray-300"
-          />
+          {data?.product?.user?.avatar ? (
+            <img
+              width={48}
+              height={48}
+              alt=""
+              src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${data?.product.user.avatar}/public`}
+              className="  w-12 h-12 rounded-full bg-gray-300"
+            />
+          ) : (
+            <div className="  w-12 h-12 rounded-full bg-gray-300" />
+          )}
+
           <div>
             <p className="text-sm font-medium text-gray-700">
               {data?.product?.user?.name}
@@ -89,7 +94,7 @@ const page = ({ params }: IParams) => {
           <h1 className="text-3xl font-bold text-gray-900">
             {data?.product?.name}
           </h1>
-          <span className="text-3xl mt-3 text-gray-900">
+          <span className="text-2xl mt-5 text-gray-700">
             ₩{Number(data?.product?.price).toLocaleString()}원
           </span>
           <p className="text-base my-6 text-gray-700">

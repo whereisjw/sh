@@ -6,6 +6,7 @@ import useSWR from "swr";
 import LoadingLove from "./LoadingLove";
 import useUser from "@/app/utils/client/useUser";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 interface ProductWithCount extends Product {
   _count: {
     Like: number;
@@ -24,14 +25,20 @@ const page = () => {
   const { data } = useSWR<ISWRResponse>(`/api/users/me/fav`, fetcher);
   const { data: user, isLoading: userLoading } = useUser();
   const router = useRouter();
-  if (!userLoading && !user) {
-    router.push("/login");
-  }
+  useEffect(() => {
+    if (user && user.ok === false) {
+      router.push("/login");
+    }
+  }, [user, router]);
   return (
     <div className="grid grid-cols-1 gap-3   lg:grid-cols-2   py-10">
       {!data && <LoadingLove />}
       {data?.fav?.map((value) => (
-        <div key={value.id} className="col-span-1">
+        <Link
+          href={`/products/${value.productId}`}
+          key={value.id}
+          className="col-span-1"
+        >
           {value?.product.image && value?.product.image !== "1" ? (
             <img
               src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${value?.product?.image}/public`}
@@ -63,7 +70,7 @@ const page = () => {
               <span>{value.product._count.Like}</span>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

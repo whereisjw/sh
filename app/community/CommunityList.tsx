@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import useSWR from "swr";
 import { fetcher } from "../utils/client/fetcher";
 import { Post, User } from "@prisma/client";
@@ -30,9 +30,11 @@ const CommunityList = () => {
 
   const { data: user, isLoading: userLoading } = useUser();
   const router = useRouter();
-  if (!userLoading && !user) {
-    router.push("/login");
-  }
+  useEffect(() => {
+    if (user && user.ok === false) {
+      router.push("/login");
+    }
+  }, [user, router]);
 
   return (
     <>

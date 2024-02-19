@@ -22,15 +22,19 @@ export default withIronSessionApiRoute(
     const { email, name, avatarURL } = req.body;
 
     if (req.method === "GET") {
-      const profile = await prisma.user.findUnique({
-        where: { id: req.session.user?.id },
-      });
+      if (user) {
+        const profile = await prisma.user.findUnique({
+          where: { id: req.session.user?.id },
+        });
 
-      if (!profile) {
-        return res.json({ ok: false });
-      } //!profile
-
-      res.status(200).json({ profile });
+        if (!profile) {
+          res.json({ ok: false });
+        } //!profile
+        if (profile) res.status(200).json({ profile, ok: true });
+      } //if user
+      if (!user) {
+        res.json({ ok: false });
+      }
     } //GET
     if (req.method === "POST") {
       console.log(email, name, avatarURL);

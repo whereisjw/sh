@@ -41,9 +41,12 @@ const List = () => {
       setCurrentPage((prev) => prev - 1);
     }
   }, [currentPage, data]);
-  if (!userLoading && !user) {
-    router.push("/login");
-  }
+  useEffect(() => {
+    if (user && user.ok === false) {
+      router.push("/login");
+    }
+  }, [user, router]);
+
   return (
     <>
       <div className="flex flex-col space-y-5 py-10">
@@ -53,7 +56,8 @@ const List = () => {
           </>
         )}
         {data?.products?.map((product, index) => (
-          <div
+          <Link
+            href={`/products/${product.id}`}
             key={index}
             className="flex justify-between border-b pb-4 cursor-pointer"
           >
@@ -97,7 +101,7 @@ const List = () => {
                 <span>{product._count.Like}</span>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
         <ul className="flex items-center space-x-2 justify-center">
           <li>

@@ -23,6 +23,7 @@ const Header = () => {
       router.push("/login");
     }
   }, [data, router]);
+  console.log(user);
 
   return (
     <>
@@ -60,7 +61,7 @@ const Header = () => {
               <img src="" alt="" />
             </div>
             <div className="  w-[33%] text-[12px] lg:flex justify-end items-center space-x-[15px]">
-              {!userLoading && !user && (
+              {user && user.ok === false && (
                 <div
                   onClick={onLoginClick}
                   className="flex flex-col items-end cursor-pointer"
@@ -77,7 +78,7 @@ const Header = () => {
                   </div>
                 </div>
               )}
-              {!userLoading && user && (
+              {user && user.ok && (
                 <div
                   onClick={onLogoutClick}
                   className="flex flex-col items-end cursor-pointer"

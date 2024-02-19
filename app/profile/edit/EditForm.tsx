@@ -70,11 +70,13 @@ const EditForm = () => {
                 src={avatarPreview}
                 className="w-14 h-14 rounded-full bg-gray-500 "
               />
-            ) : (
+            ) : user?.profile?.avatar ? (
               <img
                 src={`https://imagedelivery.net/H9OXqClZlsbj60bAqD6qiw/${user?.profile?.avatar}/public`}
                 className="w-14 h-14 rounded-full bg-gray-500 "
               />
+            ) : (
+              <div className="w-14 h-14 rounded-full bg-gray-500 " />
             )}
             <label
               htmlFor="photo"

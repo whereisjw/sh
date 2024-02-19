@@ -28,10 +28,11 @@ const page = () => {
   const { data: user, isLoading: userLoading } = useUser();
   const router = useRouter();
 
-  if (!userLoading && !user) {
-    router.push("/login");
-  }
-
+  useEffect(() => {
+    if (user && user.ok === false) {
+      router.push("/login");
+    }
+  }, [user, router]);
   return (
     <div className="flex flex-col space-y-5 py-10">
       {!data && <DMLoading />}

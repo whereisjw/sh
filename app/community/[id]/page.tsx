@@ -44,7 +44,7 @@ interface IAnswerResponse {
 const page = ({ params }: IParams) => {
   const router = useRouter();
   const { register, handleSubmit, setValue } = useForm<ICommunityAnswer>();
-  const { data, mutate } = useSWR<IResponse>(
+  const { data, mutate, isLoading } = useSWR<IResponse>(
     params.id ? `/api/posts/${params.id}` : null,
     fetcher
   );
@@ -56,7 +56,7 @@ const page = ({ params }: IParams) => {
     { loading: answerLoading, data: answerData, error: answerError },
   ] = useMutation(`/api/posts/${params.id}/answers`);
   const onWonderClick = () => {
-    if (!data) return;
+    if (!data) return false;
     mutate(
       {
         ...data,
@@ -86,7 +86,7 @@ const page = ({ params }: IParams) => {
   return (
     <div>
       <span className="inline-flex items-center my-2 mx-4 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100  text-gray-800">
-        동네질문
+        히포질문
       </span>
       <div className="flex mb-3 cursor-pointer p-3 border-b  items-center space-x-3">
         <div className="w-10 h-10 rounded-full bg-gray-300" />
@@ -129,7 +129,7 @@ const page = ({ params }: IParams) => {
                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
               </svg>
-              <span>궁금해요 {data?.post?._count.Wondering}</span>
+              <span>공감 {data?.post?._count.Wondering}</span>
             </span>
             <span className="flex space-x-2 items-center text-sm">
               <svg
@@ -162,7 +162,9 @@ const page = ({ params }: IParams) => {
                   className="w-8 h-8 bg-gray-200 rounded-full text-sm font-medium text-gray-500"
                 ></span>
                 <span>{v.user.name}</span>
-                <span>{v.createdAt.toLocaleString()}</span>
+                <span className="text-sm text-gray-400">
+                  {v.createdAt.toLocaleString().split("T")[0]}
+                </span>
                 <p className="text-gray-700">{v.answer}</p>
               </div>
             ))}

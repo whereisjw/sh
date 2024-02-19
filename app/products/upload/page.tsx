@@ -64,7 +64,7 @@ const page = () => {
         <div className="w-full flex items-center justify-center border-2 border-dashed cursor-pointer border-gray-300 hover:border-teal-500  py-6 rounded-md h-48 hover:text-teal-500">
           {photoPreview ? (
             <>
-              <img className="w-full h-full" src={photoPreview} />
+              <img className="  h-full" src={photoPreview} />
             </>
           ) : (
             <label>
