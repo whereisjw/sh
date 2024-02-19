@@ -156,7 +156,7 @@ const CommunityDetail = ({ params }: IParams) => {
           <div />
           {data &&
             data?.post.Answer.map((v) => (
-              <div className="flex   items-start space-x-3">
+              <div key={v.id} className="flex   items-start space-x-3">
                 <span
                   key={v.id}
                   className="w-8 h-8 bg-gray-200 rounded-full text-sm font-medium text-gray-500"
