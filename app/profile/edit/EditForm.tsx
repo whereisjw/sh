@@ -109,6 +109,7 @@ const EditForm = () => {
             <div className="flex rounded-md shadow-sm">
               <input
                 {...register("name")}
+                disabled={loading}
                 defaultValue={user?.profile.name}
                 className="px-4 appearance-none w-full py-2 border-gray-300 rounded-md rounded-l-none shadow-sm placeholder-gray-500 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                 type="text"
@@ -116,7 +117,7 @@ const EditForm = () => {
             </div>
           </div>
           <button className="mt-6 w-full bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 focus:outline-none">
-            프로필 업데이트
+            {loading ? "로딩중입니다" : "프로필 업데이트"}
           </button>
         </form>
       )}
