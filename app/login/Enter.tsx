@@ -62,12 +62,19 @@ const Enter = () => {
           <legend className="font-bold text-2xl text-teal-500 hover:text-teal-600">
             인증번호입력
           </legend>
-          <input
-            className="border focus:ring focus:ring-teal-500 focus:border-none focus:outline-none rounded-md shadow-sm py-2 px-4 placeholder:text-sm"
-            type="text"
-            placeholder="이메일로 받은 인증번호를 입력"
-            {...tokenRegister("token", { required: true })}
-          />
+          {tokenLoading ? (
+            <span className="text-sm text-gray-400">
+              로그인 처리중입니다. 잠시만 기다려주세요.
+            </span>
+          ) : (
+            <input
+              className="border focus:ring focus:ring-teal-500 focus:border-none focus:outline-none rounded-md shadow-sm py-2 px-4 placeholder:text-sm"
+              type="text"
+              placeholder="이메일로 받은 인증번호를 입력"
+              {...tokenRegister("token", { required: true })}
+            />
+          )}
+
           <button className="bg-teal-500 rounded-md py-2 px-4 text-white font-semibold shadow-sm hover:bg-teal-600 focus:ring focus:ring-teal-500   ">
             {tokenLoading ? "로그인중..." : "로그인하기"}
           </button>
@@ -81,12 +88,20 @@ const Enter = () => {
           <legend className="font-bold text-2xl text-teal-500 hover:text-teal-600">
             로그인
           </legend>
-          <input
-            className="border focus:ring focus:ring-teal-500 focus:border-none focus:outline-none rounded-md shadow-sm py-2 px-4"
-            type="text"
-            placeholder="이메일을입력하세요"
-            {...register("email", { required: true })}
-          />
+
+          {loading ? (
+            <span className="text-sm text-gray-400">
+              메일 전송중입니다. 최대 1분까지 소요됩니다. 잠시만 기다려주세요
+            </span>
+          ) : (
+            <input
+              className="border focus:ring focus:ring-teal-500 focus:border-none focus:outline-none rounded-md shadow-sm py-2 px-4"
+              type="text"
+              placeholder="이메일을입력하세요"
+              {...register("email", { required: true })}
+            />
+          )}
+
           <button className="bg-teal-500 rounded-md py-2 px-4 text-white font-semibold shadow-sm hover:bg-teal-600 focus:ring focus:ring-teal-500   ">
             {loading ? "메일전송중.." : "인증번호 전송"}
           </button>
