@@ -20,7 +20,7 @@
 
 ### 사용된 기술
 
-여기에 프로젝트를 구현하는 데 사용된 주요 기술들을 나열합니다.
+ 
 
 - FE 프론트엔드
 
@@ -44,8 +44,6 @@
 - DEPLOY 배포
 
 ---
-
-vercel 과 AWS Elastic Beanstalk 중 선택 예정
 
 ![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
 ![CloudType](https://img.shields.io/badge/Cloudtype-007ACC?style=for-the-badge)
