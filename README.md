@@ -73,8 +73,6 @@
 
 ### 채팅기능
 
-![녹화_2024_02_23_18_16_13_398](https://github.com/whereisjw/sh/assets/139869491/a8ffa291-0402-407f-9ed1-ef0c46a67b5a)
-
 | DM목록 | 채팅 |
 |-------|-------|
 |  ![녹화_2024_02_23_18_25_31_122](https://github.com/whereisjw/sh/assets/139869491/0958e710-b7c7-4403-be45-cd7b7b5b769e)| ![녹화_2024_02_23_18_16_13_398](https://github.com/whereisjw/sh/assets/139869491/31832311-22c8-4f23-bcc2-100e282d7a44) |
