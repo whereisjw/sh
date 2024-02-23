@@ -56,9 +56,7 @@
 
 | 로그인 | 이메일인증 |
 |-------|-------|
-|  ![녹화_2024_02_23_17_13_19_550](https://github.com/whereisjw/sh/assets/139869491/0d94166f-cbd3-4084-aeb2-a17773f0f3f7)
- | ![녹화_2024_02_23_17_14_19_897](https://github.com/whereisjw/sh/assets/139869491/ef2b8ebd-dc46-4d0b-9fad-a31ca0a1ad08)
- |
+|  ![녹화_2024_02_23_17_13_19_550](https://github.com/whereisjw/sh/assets/139869491/0d94166f-cbd3-4084-aeb2-a17773f0f3f7) | ![녹화_2024_02_23_17_14_19_897](https://github.com/whereisjw/sh/assets/139869491/ef2b8ebd-dc46-4d0b-9fad-a31ca0a1ad08) |
 
 - 메일을 입력하면 nodemailer를 통해서 사용자에게 인증번호 메일을 보냅니다.
 - 이메일로 온 인증번호를 입력하면 서비스 화면을 이용하실 수 있습니다.
@@ -67,9 +65,7 @@
 
 | 프로필변경 | 마이페이지 |
 |-------|-------|
-|![녹화_2024_02_23_17_42_32_270](https://github.com/whereisjw/sh/assets/139869491/1cb33dce-6ec0-4fed-8136-c3d80e0a558a)
-  | ![녹화_2024_02_23_17_44_10_903](https://github.com/whereisjw/sh/assets/139869491/f073a810-ad2a-47f8-825b-16f633b76eb7)
-  |
+|![녹화_2024_02_23_17_42_32_270](https://github.com/whereisjw/sh/assets/139869491/1cb33dce-6ec0-4fed-8136-c3d80e0a558a) | ![녹화_2024_02_23_17_44_10_903](https://github.com/whereisjw/sh/assets/139869491/f073a810-ad2a-47f8-825b-16f633b76eb7) |
 
 - 마이페이지에서는 프로필 사진 추가/변경 및 닉네임 변경이 가능합니다.
 - 업로드한 이미지는 올린 즉시 미리보기가 가능하며, 업로드시 cloudflare의 저장소에 보관됩니다.
